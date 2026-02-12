@@ -1,0 +1,1 @@
+curl http://localhost:8085/services/landmarksAroundMe.wsdl > landmarksAroundMe.wsdl

@@ -1,0 +1,25 @@
+<soapenv:Envelope
+        xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+        xmlns:loc="http://jo5da1.com/location-based-landmark-aroundme">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <loc:GetAroundMeLandmarksRequest>
+            <loc:Coordinates>
+                <loc:Latitude>40.7128</loc:Latitude>
+                <loc:Longitude>-74.0060</loc:Longitude>
+            </loc:Coordinates>
+            <loc:Radius>5000</loc:Radius>
+
+            <loc:Categories>
+                <loc:Category>RESTAURANT</loc:Category>
+                <loc:Category>CAFE</loc:Category>
+                <loc:Category>PARK</loc:Category>
+            </loc:Categories>
+
+            <loc:Page>1</loc:Page>
+            <loc:PageSize>10</loc:PageSize>
+        </loc:GetAroundMeLandmarksRequest>
+    </soapenv:Body>
+</soapenv:Envelope>
+
+

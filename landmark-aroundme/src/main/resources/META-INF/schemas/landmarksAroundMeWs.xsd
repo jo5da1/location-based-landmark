@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://jo5da1.com/location-based-landmark-aroundme"
+           xmlns="http://jo5da1.com/location-based-landmark-aroundme"
+           elementFormDefault="qualified">
+
+    <!-- ========================= -->
+    <!-- Coordinate Types -->
+    <!-- ========================= -->
+
+    <!-- Latitude: -90 to 90 -->
+    <xs:simpleType name="LatitudeType">
+        <xs:restriction base="xs:decimal">
+            <xs:minInclusive value="-90"/>
+            <xs:maxInclusive value="90"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!-- Longitude: -180 to 180 -->
+    <xs:simpleType name="LongitudeType">
+        <xs:restriction base="xs:decimal">
+            <xs:minInclusive value="-180"/>
+            <xs:maxInclusive value="180"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="Coordinates">
+        <xs:sequence>
+            <xs:element name="Latitude" type="LatitudeType"/>
+            <xs:element name="Longitude" type="LongitudeType"/>
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <!-- Radius: 1 to 50000 meters -->
+    <xs:simpleType name="RadiusType">
+        <xs:restriction base="xs:int">
+            <xs:minInclusive value="1"/>
+            <xs:maxInclusive value="50000"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!-- ========================= -->
+    <!-- Landmark Category ENUM -->
+    <!-- ========================= -->
+
+    <xs:simpleType name="LandmarkCategory">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="RESTAURANT"/>
+            <xs:enumeration value="CAFE"/>
+            <xs:enumeration value="HOTEL"/>
+            <xs:enumeration value="HOSPITAL"/>
+            <xs:enumeration value="PARK"/>
+            <xs:enumeration value="MUSEUM"/>
+            <xs:enumeration value="SCHOOL"/>
+            <xs:enumeration value="SHOPPING_MALL"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!-- ========================= -->
+    <!-- Landmark Complex Type -->
+    <!-- ========================= -->
+
+    <xs:complexType name="Landmark">
+        <xs:sequence>
+            <xs:element name="Name" type="xs:string"/>
+            <xs:element name="Category" type="LandmarkCategory"/>
+            <xs:element name="Coordinates" type="Coordinates"/>
+            <xs:element name="Distance" type="xs:decimal"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ========================= -->
+    <!-- Request -->
+    <!-- ========================= -->
+
+    <xs:complexType name="LandmarkCategoryList">
+        <xs:sequence>
+            <xs:element name="Category"
+                        type="LandmarkCategory"
+                        maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="GetAroundMeLandmarksRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Coordinates" type="Coordinates"/>
+                <xs:element name="Radius" type="RadiusType"/>
+                <xs:element name="Categories"
+                            type="LandmarkCategoryList"
+                            minOccurs="0"/>
+                <!-- Optional Pagination -->
+                <xs:element name="Page" type="xs:int" minOccurs="0"/>
+                <xs:element name="PageSize" type="xs:int" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- ========================= -->
+    <!-- Response -->
+    <!-- ========================= -->
+
+    <xs:element name="GetAroundMeLandmarksResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="TotalCount" type="xs:int"/>
+                <xs:element name="Landmark"
+                            type="Landmark"
+                            minOccurs="0"
+                            maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>
