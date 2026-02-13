@@ -20,7 +20,7 @@ public class AroundMeEndpoint {
 
   @PayloadRoot(namespace = NAMESPACE_URI, localPart = "GetAroundMeLandmarksRequest")
   @ResponsePayload
-  public GetAroundMeLandmarksResponse getCountry(
+  public GetAroundMeLandmarksResponse getAroundMeLandmarks(
       @RequestPayload GetAroundMeLandmarksRequest request) {
 
     log.info("soap request- {}", request);
