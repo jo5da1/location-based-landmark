@@ -1,10 +1,12 @@
-package com.jo5da1.landmark.nearby.api.models;
+package com.jo5da1.landmark.nearby.api.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 public class Landmark {
 
   private String name;

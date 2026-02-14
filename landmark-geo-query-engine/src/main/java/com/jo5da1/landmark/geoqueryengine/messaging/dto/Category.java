@@ -1,6 +1,6 @@
-package com.jo5da1.landmark.nearby.api.models;
+package com.jo5da1.landmark.geoqueryengine.messaging.dto;
 
-public enum LandmarkCategory {
+public enum Category {
   RESTAURANT,
   CAFE,
   HOTEL,

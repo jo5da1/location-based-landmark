@@ -1,12 +1,14 @@
-package com.jo5da1.landmark.nearby.api.models;
+package com.jo5da1.landmark.nearby.api.dto;
 
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @Data
+@ToString
 public class Coordinates {
 
   private double latitude;

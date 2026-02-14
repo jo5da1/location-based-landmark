@@ -1,0 +1,10 @@
+{
+  "coordinates": {
+    "latitude": 31.9539,
+    "longitude": 35.9106
+  },
+  "radius": 5000,
+  "categories": ["RESTAURANT", "CAFE"],
+  "page": 0,
+  "pageSize": 10
+}

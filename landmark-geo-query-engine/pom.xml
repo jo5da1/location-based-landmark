@@ -14,10 +14,10 @@
 	</parent>
 
 	<groupId>com.jo5da1</groupId>
-	<artifactId>landmark-nearby</artifactId>
+	<artifactId>landmark-geo-query-engine</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Landmark-Nearby</name>
-	<description>NearBy, A Location Based Landmark App</description>
+	<name>landmark-geo-query-engine</name>
+	<description>GeoQueryEngine, A Location Based Landmark App</description>
 
 	<url/>
 	<licenses>
@@ -40,22 +40,42 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-webmvc</artifactId>
+			<artifactId>spring-boot-starter-amqp</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.amqp</groupId>
+			<artifactId>spring-rabbit-stream</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-amqp</artifactId>
+			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
+			<version>1.18.30</version> <!-- or latest -->
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-webmvc-test</artifactId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa-test</artifactId>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -109,6 +129,7 @@
 				</executions>
 			</plugin>
 		</plugins>
+
 	</build>
 
 </project>
