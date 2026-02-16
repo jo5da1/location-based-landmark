@@ -8,15 +8,16 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class NearByLandmarksRequest {
+public class LandmarksRequest {
+  private String requestId;
 
   private Coordinates coordinates;
   private int radius;
-  private List<LandmarkCategory> categories;
+  private List<Category> categories;
   private Integer page;
   private Integer pageSize;
 
-  public NearByLandmarksRequest() {}
+  public LandmarksRequest() {}
 
   public Coordinates getCoordinates() {
     return coordinates;
@@ -37,11 +38,11 @@ public class NearByLandmarksRequest {
     this.radius = radius;
   }
 
-  public List<LandmarkCategory> getCategories() {
+  public List<Category> getCategories() {
     return categories;
   }
 
-  public void setCategories(List<LandmarkCategory> categories) {
+  public void setCategories(List<Category> categories) {
     this.categories = categories;
   }
 

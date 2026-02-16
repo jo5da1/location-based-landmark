@@ -1,6 +1,6 @@
 package com.jo5da1.landmark.nearby.messaging;
 
-import com.jo5da1.landmark.nearby.api.dto.NearByLandmarksRequest;
+import com.jo5da1.landmark.nearby.api.dto.LandmarksRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,7 +22,7 @@ public class LandmarkSearchPublisher {
     this.landmarkRequestQueue = landmarkRequestQueue;
   }
 
-  public void sendToLandmarkRequestQueue(NearByLandmarksRequest request) {
+  public void sendToLandmarkRequestQueue(LandmarksRequest request) {
     log.info("sending landmark search request to queue [{}]: {}", landmarkRequestQueue, request);
 
     ObjectMapper mapper = new ObjectMapper();

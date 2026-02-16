@@ -8,14 +8,16 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class NearByLandmarksResponse {
+public class LandmarksResponse {
+  private String requestId;
 
   private int totalCount;
   private List<Landmark> landmarks;
 
-  public NearByLandmarksResponse() {}
+  public LandmarksResponse() {}
 
-  public NearByLandmarksResponse(int totalCount, List<Landmark> landmarks) {
+  public LandmarksResponse(String requestId, int totalCount, List<Landmark> landmarks) {
+    this.requestId = requestId;
     this.totalCount = totalCount;
     this.landmarks = landmarks;
   }

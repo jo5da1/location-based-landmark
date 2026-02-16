@@ -10,14 +10,13 @@ import lombok.ToString;
 public class Landmark {
 
   private String name;
-  private LandmarkCategory category;
+  private Category category;
   private Coordinates coordinates;
   private double distance;
 
   public Landmark() {}
 
-  public Landmark(
-      String name, LandmarkCategory category, Coordinates coordinates, double distance) {
+  public Landmark(String name, Category category, Coordinates coordinates, double distance) {
     this.name = name;
     this.category = category;
     this.coordinates = coordinates;

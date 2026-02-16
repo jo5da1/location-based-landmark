@@ -1,6 +1,6 @@
 package com.jo5da1.landmark.nearby.messaging;
 
-import com.jo5da1.landmark.nearby.api.dto.NearByLandmarksResponse;
+import com.jo5da1.landmark.nearby.api.dto.LandmarksResponse;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class LandmarkResponseListener {
 
-  private final Map<String, CompletableFuture<NearByLandmarksResponse>> futureMap =
+  private final Map<String, CompletableFuture<LandmarksResponse>> futureMap =
       new ConcurrentHashMap<>();
 
   private final String landmarkResponseQueue;
@@ -23,16 +23,23 @@ public class LandmarkResponseListener {
     this.landmarkResponseQueue = landmarkResponseQueue;
   }
 
-  public void registerFuture(String requestId, CompletableFuture<NearByLandmarksResponse> future) {
+  public void registerFuture(String requestId, CompletableFuture<LandmarksResponse> future) {
     futureMap.put(requestId, future);
   }
 
   @RabbitListener(queues = "${landmark.response.queue}")
-  public void listenLandmarkResponseQueue(NearByLandmarksResponse response) {
+  public void listenLandmarkResponseQueue(LandmarksResponse response) {
     log.info("received landmark response on queue [{}]: {}", landmarkResponseQueue, response);
-    CompletableFuture<NearByLandmarksResponse> future = futureMap.remove(response.getRequestId());
+    if (response == null || response.getRequestId() == null) {
+      // do nothing
+      log.warn("Received response with null requestId, ignoring");
+      return;
+    }
+    CompletableFuture<LandmarksResponse> future = futureMap.remove(response.getRequestId());
     if (future != null) {
       future.complete(response);
+    } else {
+      log.warn("No future found for requestId {}", response.getRequestId());
     }
   }
 }

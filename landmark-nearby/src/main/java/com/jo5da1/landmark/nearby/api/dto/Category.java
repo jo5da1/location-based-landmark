@@ -1,6 +1,6 @@
 package com.jo5da1.landmark.nearby.api.dto;
 
-public enum LandmarkCategory {
+public enum Category {
   RESTAURANT,
   CAFE,
   HOTEL,
