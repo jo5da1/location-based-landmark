@@ -3,6 +3,7 @@ package com.jo5da1.landmark.nearify.rest.dto;
 import java.util.List;
 
 public record LandmarksRequest(
+    String requestId,
     Coordinates coordinates,
     int radius,
     List<Category> categories,

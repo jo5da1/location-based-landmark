@@ -1,4 +1,4 @@
-package com.jo5da1.landmark.nearby.rabbit;
+package com.jo5da1.landmark.nearby.messaging;
 
 import com.jo5da1.landmark.nearby.api.dto.NearByLandmarksRequest;
 import lombok.extern.slf4j.Slf4j;

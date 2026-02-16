@@ -9,6 +9,7 @@ import com.jo5da1.landmark.nearify.rest.dto.LandmarksResponse;
 import com.jo5da1.landmark.nearify.ws.dto.BoundingBox;
 import com.jo5da1.landmark.nearify.ws.dto.LandmarkWS;
 import java.util.List;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -36,7 +37,14 @@ public class LandmarkPublisher {
     Coordinates center = getBoundingBoxCenter(boundingBox);
 
     LandmarksRequest request =
-        new LandmarksRequest(center, 1000, List.of(Category.CAFE, Category.PARK), 0, 10);
+        new LandmarksRequest(
+            UUID.randomUUID().toString(),
+            center,
+            1000,
+            List.of(Category.CAFE, Category.PARK),
+            0,
+            10);
+    log.info("landmark request: {}", request);
 
     try {
       LandmarksResponse response =
