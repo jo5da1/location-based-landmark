@@ -6,7 +6,8 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import java.util.List;
 
-public record NearbyRequest(
+public record LandmarksRequest(
+    String requestId,
     @NotEmpty List<Category> categories,
     @NotNull @Valid Coordinates coordinates,
     @Min(0) int page,

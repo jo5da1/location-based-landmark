@@ -1,6 +1,6 @@
 package com.jo5da1.landmark.geoqueryengine.messaging;
 
-import com.jo5da1.landmark.geoqueryengine.messaging.dto.NearbyRequest;
+import com.jo5da1.landmark.geoqueryengine.messaging.dto.LandmarksRequest;
 import com.jo5da1.landmark.geoqueryengine.service.GeoQueryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
-public class LandmarkSearchListener {
+public class LandmarkRequestListener {
 
   private final GeoQueryService geoQueryService;
 
@@ -17,7 +17,7 @@ public class LandmarkSearchListener {
   @Value("${landmark.request.queue}")
   private String landmarkRequestQueue;
 
-  public LandmarkSearchListener(
+  public LandmarkRequestListener(
       GeoQueryService geoQueryService,
       @Value("${landmark.request.queue}") String landmarkRequestQueue) {
     this.geoQueryService = geoQueryService;
@@ -26,8 +26,8 @@ public class LandmarkSearchListener {
   }
 
   @RabbitListener(queues = "${landmark.request.queue}")
-  public void listenLandmarkRequestQueue(NearbyRequest message) {
-    log.info("received landmark search request on queue [{}]: {}", landmarkRequestQueue, message);
-    geoQueryService.process(message);
+  public void listenLandmarkRequestQueue(LandmarksRequest request) {
+    log.info("received landmark search request on queue [{}]: {}", landmarkRequestQueue, request);
+    geoQueryService.process(request);
   }
 }

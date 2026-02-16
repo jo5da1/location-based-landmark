@@ -1,7 +1,7 @@
 package com.jo5da1.landmark.geoqueryengine.controller;
 
-import com.jo5da1.landmark.geoqueryengine.messaging.LandmarkSearchPublisher;
-import com.jo5da1.landmark.geoqueryengine.messaging.dto.NearbyRequest;
+import com.jo5da1.landmark.geoqueryengine.messaging.LandmarkRequestPublisher;
+import com.jo5da1.landmark.geoqueryengine.messaging.dto.LandmarksRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class GeoQueryEngineController {
 
-  private final LandmarkSearchPublisher landmarkSearchPublisher;
+  private final LandmarkRequestPublisher landmarkSearchPublisher;
 
-  public GeoQueryEngineController(LandmarkSearchPublisher landmarkSearchPublisher) {
+  public GeoQueryEngineController(LandmarkRequestPublisher landmarkSearchPublisher) {
     this.landmarkSearchPublisher = landmarkSearchPublisher;
   }
 
@@ -28,10 +28,10 @@ public class GeoQueryEngineController {
   }
 
   @PostMapping(value = "/nearby")
-  public ResponseEntity<String> nearby(@RequestBody(required = true) NearbyRequest message) {
-    log.info("Endpoint: [/nearby], message: {}", message);
+  public ResponseEntity<String> nearby(@RequestBody(required = true) LandmarksRequest request) {
+    log.info("Endpoint: [/nearby], request: {}", request);
 
-    landmarkSearchPublisher.sendToLandmarkRequestQueue(message);
+    landmarkSearchPublisher.sendToLandmarkRequestQueue(request);
     return ResponseEntity.ok("Message sent successfully");
   }
 }

@@ -1,11 +1,11 @@
 package com.jo5da1.landmark.geoqueryengine.service;
 
-import com.jo5da1.landmark.geoqueryengine.messaging.LandmarkResultPublisher;
+import com.jo5da1.landmark.geoqueryengine.messaging.LandmarkResponsePublisher;
 import com.jo5da1.landmark.geoqueryengine.messaging.dto.Category;
 import com.jo5da1.landmark.geoqueryengine.messaging.dto.Coordinates;
 import com.jo5da1.landmark.geoqueryengine.messaging.dto.Landmark;
-import com.jo5da1.landmark.geoqueryengine.messaging.dto.NearbyRequest;
-import com.jo5da1.landmark.geoqueryengine.messaging.dto.NearbyResponse;
+import com.jo5da1.landmark.geoqueryengine.messaging.dto.LandmarksRequest;
+import com.jo5da1.landmark.geoqueryengine.messaging.dto.LandmarksResponse;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -14,16 +14,25 @@ import org.springframework.stereotype.Service;
 @Service
 public class GeoQueryService {
 
-  private final LandmarkResultPublisher landmarkResultPublisher;
+  private final LandmarkResponsePublisher landmarkResultPublisher;
 
-  public GeoQueryService(LandmarkResultPublisher landmarkResultPublisher) {
+  public GeoQueryService(LandmarkResponsePublisher landmarkResultPublisher) {
     this.landmarkResultPublisher = landmarkResultPublisher;
   }
 
-  public void process(NearbyRequest message) {
-    List<Landmark> landmarks = List.of(getCentralPark(), getJoeCoffee(), getFancyRestaurant());
+  public void process(LandmarksRequest request) {
+    List<Landmark> landmarks =
+        List.of(
+            getCentralPark(),
+            getJoeCoffee(),
+            getFancyRestaurant(),
+            getLillaIstanbul(),
+            getShahanaGrillAndKok());
 
-    NearbyResponse nearbyResponse = new NearbyResponse(landmarks.size(), landmarks);
+    // Todo from DBms
+
+    LandmarksResponse nearbyResponse =
+        new LandmarksResponse(request.requestId(), landmarks.size(), landmarks);
     landmarkResultPublisher.sendToLandmarkResponseQueue(nearbyResponse);
   }
 
@@ -40,5 +49,15 @@ public class GeoQueryService {
   private Landmark getFancyRestaurant() {
     Coordinates coordinates = new Coordinates(40.718267, -74.002242);
     return new Landmark("Fancy Restaurant", Category.RESTAURANT, coordinates, 500);
+  }
+
+  private Landmark getLillaIstanbul() {
+    Coordinates coordinates = new Coordinates(57.72495531608793, 11.949546931031295);
+    return new Landmark("Lilla Istanbul", Category.RESTAURANT, coordinates, 500);
+  }
+
+  private Landmark getShahanaGrillAndKok() {
+    Coordinates coordinates = new Coordinates(57.72307433992, 11.929296026880738);
+    return new Landmark("Shahana Grill & Kök", Category.RESTAURANT, coordinates, 500);
   }
 }
