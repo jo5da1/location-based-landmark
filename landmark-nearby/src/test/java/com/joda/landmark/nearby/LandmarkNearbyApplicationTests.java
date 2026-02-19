@@ -1,4 +1,4 @@
-package com.jo5da1.landmark.nearby;
+package com.joda.landmark.nearby;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

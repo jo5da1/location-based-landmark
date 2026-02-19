@@ -1,7 +1,7 @@
-package com.jo5da1.landmark.nearby.api;
+package com.joda.landmark.nearby.api;
 
-import com.jo5da1.landmark.nearby.api.dto.LandmarksRequest;
-import com.jo5da1.landmark.nearby.api.dto.LandmarksResponse;
+import com.joda.landmark.nearby.api.dto.LandmarksRequest;
+import com.joda.landmark.nearby.api.dto.LandmarksResponse;
 import java.util.concurrent.CompletableFuture;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;

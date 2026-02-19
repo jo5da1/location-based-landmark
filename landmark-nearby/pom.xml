@@ -13,7 +13,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
-	<groupId>com.jo5da1</groupId>
+	<groupId>com.joda</groupId>
 	<artifactId>landmark-nearby</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Landmark-Nearby</name>

@@ -1,6 +1,6 @@
-package com.jo5da1.landmark.nearby.messaging;
+package com.joda.landmark.nearby.messaging;
 
-import com.jo5da1.landmark.nearby.api.dto.LandmarksResponse;
+import com.joda.landmark.nearby.api.dto.LandmarksResponse;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;

@@ -1,6 +1,6 @@
-package com.jo5da1.landmark.nearby.messaging;
+package com.joda.landmark.nearby.messaging;
 
-import com.jo5da1.landmark.nearby.api.dto.LandmarksRequest;
+import com.joda.landmark.nearby.api.dto.LandmarksRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;

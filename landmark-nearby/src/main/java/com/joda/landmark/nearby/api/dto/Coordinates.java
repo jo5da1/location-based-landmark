@@ -1,4 +1,4 @@
-package com.jo5da1.landmark.nearby.api.dto;
+package com.joda.landmark.nearby.api.dto;
 
 import lombok.Data;
 import lombok.Getter;

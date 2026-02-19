@@ -1,4 +1,4 @@
-package com.jo5da1.landmark.nearby;
+package com.joda.landmark.nearby;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

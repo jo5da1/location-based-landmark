@@ -1,4 +1,4 @@
-package com.jo5da1.landmark.nearby.messaging;
+package com.joda.landmark.nearby.messaging;
 
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.support.converter.JacksonJsonMessageConverter;
