@@ -13,7 +13,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
-	<groupId>com.jo5da1</groupId>
+	<groupId>com.joda</groupId>
 	<artifactId>landmark-geo-query-engine</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>landmark-geo-query-engine</name>

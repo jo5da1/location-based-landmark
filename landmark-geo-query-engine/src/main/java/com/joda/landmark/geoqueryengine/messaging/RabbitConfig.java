@@ -1,4 +1,4 @@
-package com.jo5da1.landmark.geoqueryengine.messaging;
+package com.joda.landmark.geoqueryengine.messaging;
 
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.support.converter.JacksonJsonMessageConverter;

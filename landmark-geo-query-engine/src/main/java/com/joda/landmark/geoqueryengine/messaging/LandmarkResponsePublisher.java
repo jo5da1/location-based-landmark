@@ -1,6 +1,6 @@
-package com.jo5da1.landmark.geoqueryengine.messaging;
+package com.joda.landmark.geoqueryengine.messaging;
 
-import com.jo5da1.landmark.geoqueryengine.messaging.dto.LandmarksResponse;
+import com.joda.landmark.geoqueryengine.messaging.dto.LandmarksResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;

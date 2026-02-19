@@ -1,4 +1,4 @@
-package com.jo5da1.landmark.geoqueryengine.messaging.dto;
+package com.joda.landmark.geoqueryengine.messaging.dto;
 
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;

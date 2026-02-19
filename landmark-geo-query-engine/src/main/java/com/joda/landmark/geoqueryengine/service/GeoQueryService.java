@@ -1,11 +1,11 @@
-package com.jo5da1.landmark.geoqueryengine.service;
+package com.joda.landmark.geoqueryengine.service;
 
-import com.jo5da1.landmark.geoqueryengine.messaging.LandmarkResponsePublisher;
-import com.jo5da1.landmark.geoqueryengine.messaging.dto.Category;
-import com.jo5da1.landmark.geoqueryengine.messaging.dto.Coordinates;
-import com.jo5da1.landmark.geoqueryengine.messaging.dto.Landmark;
-import com.jo5da1.landmark.geoqueryengine.messaging.dto.LandmarksRequest;
-import com.jo5da1.landmark.geoqueryengine.messaging.dto.LandmarksResponse;
+import com.joda.landmark.geoqueryengine.messaging.LandmarkResponsePublisher;
+import com.joda.landmark.geoqueryengine.messaging.dto.Category;
+import com.joda.landmark.geoqueryengine.messaging.dto.Coordinates;
+import com.joda.landmark.geoqueryengine.messaging.dto.Landmark;
+import com.joda.landmark.geoqueryengine.messaging.dto.LandmarksRequest;
+import com.joda.landmark.geoqueryengine.messaging.dto.LandmarksResponse;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

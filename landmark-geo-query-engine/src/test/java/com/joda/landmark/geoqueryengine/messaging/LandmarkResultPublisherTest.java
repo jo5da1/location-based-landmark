@@ -1,11 +1,11 @@
-package com.jo5da1.landmark.geoqueryengine.messaging;
+package com.joda.landmark.geoqueryengine.messaging;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.anyString;
 
-import com.jo5da1.landmark.geoqueryengine.messaging.dto.LandmarksResponse;
+import com.joda.landmark.geoqueryengine.messaging.dto.LandmarksResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;

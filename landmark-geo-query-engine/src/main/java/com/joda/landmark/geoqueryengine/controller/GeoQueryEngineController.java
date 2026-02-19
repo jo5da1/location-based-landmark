@@ -1,7 +1,7 @@
-package com.jo5da1.landmark.geoqueryengine.controller;
+package com.joda.landmark.geoqueryengine.controller;
 
-import com.jo5da1.landmark.geoqueryengine.messaging.LandmarkRequestPublisher;
-import com.jo5da1.landmark.geoqueryengine.messaging.dto.LandmarksRequest;
+import com.joda.landmark.geoqueryengine.messaging.LandmarkRequestPublisher;
+import com.joda.landmark.geoqueryengine.messaging.dto.LandmarksRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
