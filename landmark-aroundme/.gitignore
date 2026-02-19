@@ -37,3 +37,4 @@ build/
 target/
 src/main/java/META-INF/JAXB
 src/main/java/com/jo5da1/landmark/soap/gen
+src/main/java/com/joda/landmark/soap/gen

@@ -12,7 +12,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
-	<groupId>com.jo5da1</groupId>
+	<groupId>com.joda</groupId>
 	<artifactId>landmark-aroundme</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Landmark-AroundMe</name>
@@ -94,7 +94,7 @@
 						<googleJavaFormat /> <!-- Uses Google's standard style -->
 						<removeUnusedImports />
 						<excludes>
-							<exclude>src/main/java/com/jo5da1/landmark/soap/gen/*.java</exclude>
+							<exclude>src/main/java/com/joda/landmark/soap/gen/*.java</exclude>
 						</excludes>
 					</java>
 				</configuration>
@@ -125,7 +125,7 @@
 					</sources>
 					<outputDirectory>${project.basedir}/src/main/java</outputDirectory>
 					<clearOutputDir>false</clearOutputDir>
-					<packageName>com.jo5da1.landmark.soap.gen</packageName>
+					<packageName>com.joda.landmark.soap.gen</packageName>
 				</configuration>
 			</plugin>
 		</plugins>

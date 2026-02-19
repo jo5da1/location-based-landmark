@@ -1,6 +1,6 @@
 <soapenv:Envelope
         xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
-        xmlns:loc="http://jo5da1.com/location-based-landmark-aroundme">
+        xmlns:loc="http://joda.com/location-based-landmark-aroundme">
     <soapenv:Header/>
     <soapenv:Body>
         <loc:GetAroundMeLandmarksRequest>

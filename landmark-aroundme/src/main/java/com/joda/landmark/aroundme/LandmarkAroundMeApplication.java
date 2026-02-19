@@ -1,4 +1,4 @@
-package com.jo5da1.landmark.aroundme;
+package com.joda.landmark.aroundme;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,4 +1,4 @@
-package com.jo5da1.landmark.aroundme;
+package com.joda.landmark.aroundme;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

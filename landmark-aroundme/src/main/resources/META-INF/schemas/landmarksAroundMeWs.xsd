@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-           targetNamespace="http://jo5da1.com/location-based-landmark-aroundme"
-           xmlns="http://jo5da1.com/location-based-landmark-aroundme"
+           targetNamespace="http://joda.com/location-based-landmark-aroundme"
+           xmlns="http://joda.com/location-based-landmark-aroundme"
            elementFormDefault="qualified">
 
     <!-- ========================= -->

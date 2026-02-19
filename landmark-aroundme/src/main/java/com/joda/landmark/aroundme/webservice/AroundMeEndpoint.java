@@ -1,10 +1,10 @@
-package com.jo5da1.landmark.aroundme.webservice;
+package com.joda.landmark.aroundme.webservice;
 
-import com.jo5da1.landmark.soap.gen.Coordinates;
-import com.jo5da1.landmark.soap.gen.GetAroundMeLandmarksRequest;
-import com.jo5da1.landmark.soap.gen.GetAroundMeLandmarksResponse;
-import com.jo5da1.landmark.soap.gen.Landmark;
-import com.jo5da1.landmark.soap.gen.LandmarkCategory;
+import com.joda.landmark.soap.gen.Coordinates;
+import com.joda.landmark.soap.gen.GetAroundMeLandmarksRequest;
+import com.joda.landmark.soap.gen.GetAroundMeLandmarksResponse;
+import com.joda.landmark.soap.gen.Landmark;
+import com.joda.landmark.soap.gen.LandmarkCategory;
 import java.math.BigDecimal;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
@@ -16,7 +16,7 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 @Slf4j
 public class AroundMeEndpoint {
 
-  private static final String NAMESPACE_URI = "http://jo5da1.com/location-based-landmark-aroundme";
+  private static final String NAMESPACE_URI = "http://joda.com/location-based-landmark-aroundme";
 
   @PayloadRoot(namespace = NAMESPACE_URI, localPart = "GetAroundMeLandmarksRequest")
   @ResponsePayload
