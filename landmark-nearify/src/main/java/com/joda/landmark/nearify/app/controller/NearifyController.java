@@ -1,7 +1,7 @@
-package com.jo5da1.landmark.nearify.app.controller;
+package com.joda.landmark.nearify.app.controller;
 
-import com.jo5da1.landmark.nearify.app.service.LandmarkPublisher;
-import com.jo5da1.landmark.nearify.ws.dto.BoundingBox;
+import com.joda.landmark.nearify.app.service.LandmarkPublisher;
+import com.joda.landmark.nearify.ws.dto.BoundingBox;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;

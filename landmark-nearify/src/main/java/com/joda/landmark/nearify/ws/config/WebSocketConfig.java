@@ -1,4 +1,4 @@
-package com.jo5da1.landmark.nearify.ws.config;
+package com.joda.landmark.nearify.ws.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;

@@ -1,13 +1,13 @@
-package com.jo5da1.landmark.nearify.app.service;
+package com.joda.landmark.nearify.app.service;
 
-import com.jo5da1.landmark.nearify.app.config.NearbyServiceProperties;
-import com.jo5da1.landmark.nearify.rest.dto.Category;
-import com.jo5da1.landmark.nearify.rest.dto.Coordinates;
-import com.jo5da1.landmark.nearify.rest.dto.Landmark;
-import com.jo5da1.landmark.nearify.rest.dto.LandmarksRequest;
-import com.jo5da1.landmark.nearify.rest.dto.LandmarksResponse;
-import com.jo5da1.landmark.nearify.ws.dto.BoundingBox;
-import com.jo5da1.landmark.nearify.ws.dto.LandmarkWS;
+import com.joda.landmark.nearify.app.config.NearbyServiceProperties;
+import com.joda.landmark.nearify.rest.dto.Category;
+import com.joda.landmark.nearify.rest.dto.Coordinates;
+import com.joda.landmark.nearify.rest.dto.Landmark;
+import com.joda.landmark.nearify.rest.dto.LandmarksRequest;
+import com.joda.landmark.nearify.rest.dto.LandmarksResponse;
+import com.joda.landmark.nearify.ws.dto.BoundingBox;
+import com.joda.landmark.nearify.ws.dto.LandmarkWS;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;

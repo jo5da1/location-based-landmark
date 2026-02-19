@@ -1,4 +1,4 @@
-package com.jo5da1.landmark.nearify.rest;
+package com.joda.landmark.nearify.rest;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
