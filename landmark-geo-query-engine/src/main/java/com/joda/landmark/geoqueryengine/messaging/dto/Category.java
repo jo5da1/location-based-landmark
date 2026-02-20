@@ -8,5 +8,6 @@ public enum Category {
   PARK,
   MUSEUM,
   SCHOOL,
-  SHOPPING_MALL
+  SHOPPING_MALL,
+  OTHER
 }

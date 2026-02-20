@@ -1,9 +1,10 @@
 {
+  "requestId": "request-1",
   "coordinates": {
-    "latitude": 31.9539,
-    "longitude": 35.9106
+    "latitude": 57.72495531608793,
+    "longitude": 11.949546931031295
   },
-  "radius": 5000,
+  "radius": 1000,
   "categories": ["RESTAURANT", "CAFE"],
   "page": 0,
   "pageSize": 10

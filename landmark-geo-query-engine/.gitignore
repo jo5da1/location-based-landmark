@@ -34,3 +34,7 @@ build/
 
 .mvn/
 target/
+docker/postgres/data
+docker/postgres/log
+docker/map_osm
+todo/
