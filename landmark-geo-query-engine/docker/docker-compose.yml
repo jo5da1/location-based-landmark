@@ -8,11 +8,13 @@ services:
       - "5672:5672"     # AMQP
       - "15672:15672"   # Management UI
     environment:
-      RABBITMQ_DEFAULT_USER: guest
-      RABBITMQ_DEFAULT_PASS: guest
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
     #restart: unless-stopped
+    networks:
+      - landmark-net
 
   pgrouting:
     image: pgrouting/pgrouting:16-3.5-4.0
@@ -20,26 +22,103 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./postgres/data:/data
+      - ./postgres/db:/var/lib/postgresql/data
       - ./postgres/logs:/logs
       - ./postgres/init:/docker-entrypoint-initdb.d
     environment:
-      POSTGRES_DB: landmark_db
-      POSTGRES_USER: landmark_user
-      POSTGRES_PASSWORD: landmark_password
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       #PGDATA: /data/postgres
+    networks:
+      - landmark-net
+
+  importer:
+    build: ./importer
+    container_name: importer
+    depends_on:
+      - pgrouting
+    volumes:
+      - ./postgres/data:/data
+    environment:
+      PGPASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    networks:
+      - landmark-net
+    command:
+      - bash
+      - -c
+      - |
+        set -e
+
+        echo "Waiting for PostgreSQL..."
+        until pg_isready -h pgrouting -p 5432 -U landmark_user; do
+          sleep 2
+        done
+
+        echo "PostgreSQL is ready. Starting import..."
+
+        echo "********************************"
+        echo "Starting osm2pgrouting import..."
+        echo "********************************"
+
+        osm2pgrouting -f /data/map.osm \
+          -d landmark_db \
+          -U landmark_user \
+          -W "$POSTGRES_PASSWORD" \
+          -h pgrouting \
+          --clean
+
+        EXIT_OSM_2_PGROUTING=$$?
+
+        if [ $$EXIT_OSM_2_PGROUTING -eq 0 ]; then
+          echo "Exit code $$EXIT_OSM_2_PGROUTING"
+          echo "Import of osm2pgrouting finished successfully!"
+        else
+          echo "Import of osm2pgrouting failed with exit code $$EXIT_OSM_2_PGROUTING"
+          exit 1
+        fi
+
+        echo "********************************"
+        echo "Starting osm2pgsql import..."
+        echo "********************************"
+
+        osm2pgsql \
+          -H pgrouting \
+          -d landmark_db \
+          -U landmark_user \
+          --create \
+          --slim \
+          --hstore \
+          /data/map.osm
+
+        EXIT_OSM_2_PGSSQL=$$?
+
+        if [ $$EXIT_OSM_2_PGSSQL -eq 0 ]; then
+          echo "$$EXIT_OSM_2_PGSSQL"
+          echo "Import of osm2pgsql finished successfully!"
+        else
+          echo "Import of osm2pgsql failed with exit code $$EXIT_OSM_2_PGSSQL"
+          exit 1
+        fi
+
+        echo "All Import finished successfully!"
 
   pgadmin:
     image: dpage/pgadmin4
     container_name: pgadmin
     #restart: always
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin@admin.com
-      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
     ports:
       - "5050:80"
-
+    networks:
+      - landmark-net
 
 volumes:
   rabbitmq_data:
 
+networks:
+  landmark-net:
+    driver: bridge
