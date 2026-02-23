@@ -1,24 +1,33 @@
 version: "3.9"
 
 services:
+  # -------------------------
+  # RABBITMQ (WITH PROMETHEUS)
+  # -------------------------
   rabbitmq:
     image: rabbitmq:4.2.3-management-alpine
     container_name: rabbitmq
     ports:
       - "5672:5672"     # AMQP
       - "15672:15672"   # Management UI
+      - "15692:15692"   # Grafana/Prometheus
     environment:
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+    command: >
+      bash -c "rabbitmq-plugins enable --offline rabbitmq_prometheus &&
+               rabbitmq-server"
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
-    #restart: unless-stopped
     networks:
       - landmark-net
 
-  pgrouting:
+  # -------------------------
+  # POSTGRES + PGRouting
+  # -------------------------
+  postgres_pgrouting:
     image: pgrouting/pgrouting:16-3.5-4.0
-    container_name: pgrouting
+    container_name: postgres_pgrouting
     ports:
       - "5432:5432"
     volumes:
@@ -29,7 +38,28 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_MONITORING_USER: ${POSTGRES_MONITORING_USER}
+      POSTGRES_MONITORING_PASSWORD: ${POSTGRES_MONITORING_PASSWORD}
       #PGDATA: /data/postgres
+    networks:
+      - landmark-net
+
+  # -------------------------
+  # POSTGRES EXPORTER
+  # -------------------------
+  postgres-exporter:
+    #image: prometheuscommunity/postgres-exporter
+    image: prometheuscommunity/postgres-exporter:v0.19.0
+    container_name: postgres-exporter
+    ports:
+      - "9187:9187"
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_MONITORING_USER: ${POSTGRES_MONITORING_USER}
+      POSTGRES_MONITORING_PASSWORD: ${POSTGRES_MONITORING_PASSWORD}
+      DATA_SOURCE_NAME: "postgresql://${POSTGRES_MONITORING_USER}:${POSTGRES_MONITORING_PASSWORD}@postgres:5432/${POSTGRES_DB}?sslmode=disable"
+    depends_on:
+      - postgres_pgrouting
     networks:
       - landmark-net
 
@@ -37,7 +67,7 @@ services:
     build: ./importer
     container_name: importer
     depends_on:
-      - pgrouting
+      - postgres_pgrouting
     volumes:
       - ./postgres/data:/data
     environment:
@@ -52,7 +82,7 @@ services:
         set -e
 
         echo "Waiting for PostgreSQL..."
-        until pg_isready -h pgrouting -p 5432 -U landmark_user; do
+        until pg_isready -h postgres_pgrouting -p 5432 -U landmark_user; do
           sleep 2
         done
 
@@ -66,7 +96,7 @@ services:
           -d landmark_db \
           -U landmark_user \
           -W "$POSTGRES_PASSWORD" \
-          -h pgrouting \
+          -h postgres_pgrouting \
           --clean
 
         EXIT_OSM_2_PGROUTING=$$?
@@ -84,7 +114,7 @@ services:
         echo "********************************"
 
         osm2pgsql \
-          -H pgrouting \
+          -H postgres_pgrouting \
           -d landmark_db \
           -U landmark_user \
           --create \
@@ -116,8 +146,39 @@ services:
     networks:
       - landmark-net
 
+  # -------------------------
+  # PROMETHEUS
+  # -------------------------
+  prometheus:
+    image: prom/prometheus:v3.5.1
+    container_name: prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    ports:
+      - "9090:9090"
+    networks:
+      - landmark-net
+
+  # -------------------------
+  # GRAFANA
+  # -------------------------
+  grafana:
+    image: grafana/grafana:12.3
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+    volumes:
+      - grafana_data:/var/lib/grafana
+    networks:
+      - landmark-net
+
 volumes:
   rabbitmq_data:
+  prometheus_data:
+  grafana_data:
 
 networks:
   landmark-net:

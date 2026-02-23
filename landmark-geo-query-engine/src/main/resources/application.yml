@@ -1,4 +1,12 @@
 server.port: 8087
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  endpoint:
+    prometheus:
+      enabled: true
 
 spring:
   application.name: landmark-geo-query-engine
