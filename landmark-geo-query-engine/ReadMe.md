@@ -4,4 +4,4 @@
 - Executes spatial queries using PostGIS
 - Returns nearby landmark recommendations
 
-[Go to Docker Setup](./docker/README.md)
+[Go to Docker Setup](../docker/README.md)

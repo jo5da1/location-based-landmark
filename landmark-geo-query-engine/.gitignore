@@ -39,4 +39,9 @@ docker/postgres/data
 docker/postgres/db
 docker/postgres/log
 docker/map_osm
+../docker/data
+../docker/postgres/data
+../docker/postgres/db
+../docker/postgres/log
+../docker/map_osm
 todo/

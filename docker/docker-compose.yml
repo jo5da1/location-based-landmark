@@ -64,7 +64,7 @@ services:
       - landmark-net
 
   importer:
-    build: ./importer
+    build: importer
     container_name: importer
     depends_on:
       - postgres_pgrouting
