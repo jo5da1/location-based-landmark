@@ -1,0 +1,12 @@
+server.port: 8087
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/landmark_db
+    username: landmark_user
+    password: landmark_password
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest

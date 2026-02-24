@@ -175,6 +175,62 @@ services:
     networks:
       - landmark-net
 
+  landmark-nearify:
+    image: landmark-nearify
+    container_name: landmark-nearify
+    profiles:
+      - landmark
+    ports:
+      - "8084:8084"
+    environment:
+      LANDMARK_NEARBY_API_URL: http://host.docker.internal:8086/api/landmark/nearby
+    depends_on:
+      - postgres_pgrouting
+      - rabbitmq
+    networks:
+      - landmark-net
+
+  landmark-nearby:
+    image: landmark-nearby
+    container_name: landmark-nearby
+    profiles:
+      - landmark
+    ports:
+      - "8086:8086"
+    environment:
+      RABBIT_HOST: rabbitmq
+      RABBIT_PORT: 5672
+      RABBIT_USER_NAME: 'guest'
+      RABBIT_PASSWORD: 'guest'
+    depends_on:
+      - postgres_pgrouting
+      - rabbitmq
+    networks:
+      - landmark-net
+
+  landmark-geo-query-engine:
+    image: landmark-geo-query-engine
+    container_name: landmark-geo-query-engine
+    profiles:
+      - landmark
+    ports:
+      - "8087:8087"
+    environment:
+      DB_HOST: postgres_pgrouting
+      DB_PORT: 5432
+      DB_NAME: 'landmark_db'
+      DB_USER_NAME: 'landmark_user'
+      DB_USER_PASSWORD: 'landmark_password'
+      RABBIT_HOST: rabbitmq
+      RABBIT_PORT: 5672
+      RABBIT_USER_NAME: 'guest'
+      RABBIT_PASSWORD: 'guest'
+    depends_on:
+      - postgres_pgrouting
+      - rabbitmq
+    networks:
+      - landmark-net
+
 volumes:
   rabbitmq_data:
   prometheus_data:

@@ -39,6 +39,16 @@ docker compose build --no-cache
 docker compose up
 docker logs -f importer
 ````
+#### Profiles (Best Way to Enable/Disable Services)
+Docker Compose supports profiles, which act like feature toggles.
+```
+docker compose --profile landmark up
+```
+#### Scale to Zero (Soft Disable)
+scale a service to 0:
+```
+#docker compose --profile landmark up --scale landmark-geo-query-engine=0
+```
 
 # Monitoring
 
