@@ -63,9 +63,9 @@ services:
     networks:
       - landmark-net
 
-  importer:
+  osm-import-job:
     build: importer
-    container_name: importer
+    container_name: landmark_osm_importer
     depends_on:
       - postgres_pgrouting
     volumes:
@@ -183,7 +183,7 @@ services:
     ports:
       - "8084:8084"
     environment:
-      LANDMARK_NEARBY_API_URL: http://host.docker.internal:8086/api/landmark/nearby
+      LANDMARK_NEARBY_API_URL: 'http://landmark-nearby:8086/api/landmark/nearby'
     depends_on:
       - postgres_pgrouting
       - rabbitmq

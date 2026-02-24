@@ -1,0 +1,1 @@
+docker compose --profile landmark down -v
