@@ -1,0 +1,11 @@
+target
+.idea
+.mvn
+.git
+.gitignore
+docker-build.sh
+todo/
+Dockerfile
+docker-compose.yml
+.env
+#
