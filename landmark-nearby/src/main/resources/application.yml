@@ -1,0 +1,23 @@
+server.port: 8086
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  endpoint:
+    prometheus:
+      enabled: true
+
+spring:
+  application.name: landmark-nearby
+  rabbitmq:
+    host: ${RABBIT_HOST}
+    port: ${RABBIT_PORT}
+    username: ${RABBIT_USER_NAME}
+    password: ${RABBIT_PASSWORD}
+
+
+# rabbit queue
+landmark.request.queue: landmark.request.queue
+landmark.response.queue: landmark.response.queue
