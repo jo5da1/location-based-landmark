@@ -10,22 +10,18 @@ scrape_configs:
     static_configs:
       - targets: ['postgres-exporter:9187']
 
-  - job_name: 'spring-boot'
+  - job_name: 'spring-boot-ide-landmark-service'
     metrics_path: '/actuator/prometheus'
     static_configs:
-      - targets: ['host.docker.internal:8087']
+      - targets:
+        - 'host.docker.internal:8087'
+        - 'host.docker.internal:8086'
+        - 'host.docker.internal:8084'
 
-  - job_name: 'landmark-geo-query-engine'
+  - job_name: 'landmark-services'
     metrics_path: '/actuator/prometheus'
     static_configs:
-      - targets: ['host.docker.internal:8087']
-
-  - job_name: 'landmark-nearby'
-    metrics_path: '/actuator/prometheus'
-    static_configs:
-      - targets: ['host.docker.internal:8086']
-
-  - job_name: 'landmark-nearify'
-    metrics_path: '/actuator/prometheus'
-    static_configs:
-      - targets: ['host.docker.internal:8084']
+      - targets:
+        - 'landmark-geo-query-engine:8087'
+        - 'landmark-nearby:8086'
+        - 'landmark-nearify:8084'
