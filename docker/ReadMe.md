@@ -83,6 +83,7 @@ Grafana has prebuilt dashboards.
   - Dashboard ID: 10991
 - For PostgreSQL 
   - Dashboard ID: 9628
+- API Performance Dashboard → 23520
 
 ### To import:
 1. Dashboards → New → Import

@@ -10,7 +10,7 @@ scrape_configs:
     static_configs:
       - targets: ['postgres-exporter:9187']
 
-  - job_name: 'spring-boot-ide-landmark-service'
+  - job_name: 'landmark-service-running-in-ide'
     metrics_path: '/actuator/prometheus'
     static_configs:
       - targets:
