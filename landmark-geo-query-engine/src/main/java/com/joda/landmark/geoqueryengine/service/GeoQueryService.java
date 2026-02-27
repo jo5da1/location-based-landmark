@@ -11,6 +11,8 @@ import com.joda.landmark.geoqueryengine.persistence.PlanetOsmPointRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.AmqpRejectAndDontRequeueException;
+import org.springframework.dao.InvalidDataAccessResourceUsageException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -59,24 +61,32 @@ public class GeoQueryService {
           "Published response for requestId={}, count={}",
           request.requestId(),
           nearbyResponse.totalCount());
+
     } catch (IllegalArgumentException ex) {
       // Validation failures
-      log.warn(
+      log.error(
           "Invalid landmark request. requestId={}, error={}",
           request != null ? request.requestId() : "null",
           ex.getMessage());
       ex.printStackTrace();
+
+    } catch (InvalidDataAccessResourceUsageException ex) {
+      log.error(
+          "GeoQuery database error: DB table missing. requestId={}",
+          request != null ? request.requestId() : "null");
+      ex.printStackTrace();
+
+      throw new AmqpRejectAndDontRequeueException("OSM schema not initialized", ex);
 
     } catch (Exception ex) {
       // Unexpected failures (DB, messaging, mapping, etc.)
       log.error(
           "Failed to process landmark request. requestId={}, category={}, radius={}",
           request != null ? request.requestId() : "null",
-          request != null ? request.categories() : "null",
-          request != null ? request.radius() : "null",
           ex);
       ex.printStackTrace();
-      throw ex;
+
+      throw ex; // let retry happen for transient failures
     }
   }
 

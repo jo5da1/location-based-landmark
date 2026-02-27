@@ -1,6 +1,8 @@
 package com.joda.landmark.geoqueryengine.messaging;
 
 import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.support.converter.JacksonJsonMessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,5 +25,13 @@ public class RabbitConfig {
   @Bean
   public JacksonJsonMessageConverter jacksonJsonMessageConverter(ObjectMapper objectMapper) {
     return new JacksonJsonMessageConverter((JsonMapper) objectMapper);
+  }
+
+  @Bean
+  public SimpleMessageListenerContainer container(ConnectionFactory connectionFactory) {
+    SimpleMessageListenerContainer container =
+        new SimpleMessageListenerContainer(connectionFactory);
+    container.setDefaultRequeueRejected(false);
+    return container;
   }
 }
