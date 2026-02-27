@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: landmark-nearby
+  namespace: landmark
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: landmark-nearby
+  template:
+    metadata:
+      labels:
+        app: landmark-nearby
+    spec:
+      containers:
+        - name: landmark-nearby
+          image: landmark-nearby
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8086
+          env:
+            - name: RABBIT_HOST
+              value: rabbitmq
+            - name: RABBIT_PORT
+              value: "5672"
+            - name: RABBIT_USER_NAME
+              value: "guest"
+            - name: RABBIT_PASSWORD
+              value: "guest"

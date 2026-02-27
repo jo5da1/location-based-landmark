@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres
+  namespace: landmark
+spec:
+  serviceName: postgres
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: pgrouting/pgrouting:16-3.5-4.0
+          ports:
+            - containerPort: 5432
+#          envFrom:
+#            - secretRef:
+#                name: db-secret
+          env:
+            - name: POSTGRES_DB
+              value: "landmark_db"
+            - name: POSTGRES_USER
+              value: "landmark_user"
+            - name: POSTGRES_PASSWORD
+              value: "landmark_password"
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          volumeMounts:
+            - name: postgres-storage
+              mountPath: /var/lib/postgresql/data
+  volumeClaimTemplates:
+    - metadata:
+        name: postgres-storage
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 512Mi

@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: landmark-nearify
+  namespace: landmark
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: landmark-nearify
+  template:
+    metadata:
+      labels:
+        app: landmark-nearify
+    spec:
+      containers:
+        - name: landmark-nearify
+          image: landmark-nearify
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8084
+          env:
+            - name: LANDMARK_NEARBY_API_URL
+              value: "http://landmark-nearby:8086/api/landmark/nearby"
