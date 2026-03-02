@@ -1,0 +1,96 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: landmark-osm-import-job
+  namespace: landmark
+spec:
+  backoffLimit: 2 # Stop After 2 Attempts
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: landmark-osm-importer
+          image: landmark-osm-importer
+          imagePullPolicy: Never
+          env:
+            - name: POSTGRES_PASSWORD
+              value: "landmark_password"
+            - name: PGPASSWORD
+              value: "landmark_password"
+#          volumeMounts:
+#            - name: osm-data
+#              mountPath: /data
+
+          command:
+            - bash
+            - -c
+            - |
+              set -e
+
+              echo "*** ******************************** ***"
+              echo "Waiting for PostgreSQL..."
+              echo " "
+
+              until pg_isready -h postgres-0.postgres.landmark.svc.cluster.local -p 5432 -U landmark_user; do
+                sleep 2
+              done
+
+              echo " "
+              echo "PostgreSQL is ready. Starting import..."
+              echo "*** ******************************** ***"
+              echo " "
+
+              echo "Current directory is: $(pwd)"
+              echo "Listing files:" && ls
+
+
+              echo "********************************"
+              echo "Starting osm2pgrouting import..."
+              echo "********************************"
+
+              osm2pgrouting -f /data/map.osm \
+                -d landmark_db \
+                -U landmark_user \
+                -W "$POSTGRES_PASSWORD" \
+                -h postgres-0.postgres.landmark.svc.cluster.local \
+                --clean
+
+              EXIT_OSM_2_PGROUTING=$?
+
+              if [ $EXIT_OSM_2_PGROUTING -eq 0 ]; then
+                echo "Exit code $EXIT_OSM_2_PGROUTING"
+                echo "Import of osm2pgrouting finished successfully!"
+              else
+                echo "Import of osm2pgrouting failed with exit code $EXIT_OSM_2_PGROUTING"
+                exit 1
+              fi
+
+              echo "********************************"
+              echo "Starting osm2pgsql import..."
+              echo "********************************"
+
+              osm2pgsql \
+                -H postgres-0.postgres.landmark.svc.cluster.local \
+                -d landmark_db \
+                -U landmark_user \
+                --create \
+                --slim \
+                --hstore \
+                /data/map.osm
+
+              EXIT_OSM_2_PGSQL=$?
+
+              if [ $EXIT_OSM_2_PGSQL -eq 0 ]; then
+                echo "$EXIT_OSM_2_PGSQL"
+                echo "Import of osm2pgsql finished successfully!"
+              else
+                echo "Import of osm2pgsql failed with exit code $EXIT_OSM_2_PGSQL"
+                exit 1
+              fi
+
+              echo "All Import finished successfully!"
+
+#      volumes:
+#        - name: osm-data
+#          persistentVolumeClaim:
+#            claimName: osm-data-pvc

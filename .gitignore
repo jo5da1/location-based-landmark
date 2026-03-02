@@ -9,3 +9,5 @@ docker/postgres/data
 docker/postgres/db
 docker/postgres/log
 docker/map_osm
+
+*.osm
