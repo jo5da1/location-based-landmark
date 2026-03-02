@@ -129,6 +129,11 @@ public class GeoQueryService {
     return category.name().toLowerCase();
   }
 
+  private LandmarksResponse testSearchNearby(LandmarksRequest request) {
+    List<Landmark> landmarks = testLandmarks();
+    return new LandmarksResponse(request.requestId(), landmarks.size(), landmarks);
+  }
+
   private List<Landmark> testLandmarks() {
     return List.of(
         getCentralPark(),
