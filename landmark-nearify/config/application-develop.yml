@@ -1,0 +1,6 @@
+server.port: 8084
+
+location-based-landmark:
+  service:
+    nearby:
+      api-url: "http://localhost:8086/api/landmark/nearby"
