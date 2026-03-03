@@ -1,0 +1,22 @@
+# ConfigMap for auto-registering PostgreSQL server in pgAdmin
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pgadmin-config
+  namespace: landmark
+data:
+  servers.json: |
+    {
+      "Servers": {
+        "1": {
+          "Name": "Landmark Postgres Server",
+          "Group": "Servers",
+          "Host": "postgres-0.postgres.landmark.svc.cluster.local",
+          "Port": 5432,
+          "MaintenanceDB": "landmark_db",
+          "Username": "landmark_user",
+          "Password": "landmark_password",
+          "SSLMode": "prefer"
+        }
+      }
+    }
