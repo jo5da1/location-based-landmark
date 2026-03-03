@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: landmark-osm-import-job
+  name: landmark-osm-import-local-job
   namespace: landmark
 spec:
   backoffLimit: 2 # Stop After 2 Attempts
@@ -9,8 +9,8 @@ spec:
     spec:
       restartPolicy: Never
       containers:
-        - name: landmark-osm-importer
-          image: landmark-osm-importer
+        - name: landmark-osm-importer-local
+          image: landmark-osm-importer-local
           imagePullPolicy: Never
           env:
             - name: POSTGRES_PASSWORD

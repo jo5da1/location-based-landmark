@@ -9,8 +9,6 @@ RUN apt-get update && apt-get install -y osm2pgrouting
 
  # Create data directory
 RUN mkdir -p /data
-RUN mkdir -p /data/ok
-
 
 # Copy your OSM file into the container
 COPY map.osm /data/map.osm

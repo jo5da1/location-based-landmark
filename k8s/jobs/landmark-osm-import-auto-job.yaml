@@ -1,0 +1,23 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: landmark-osm-import-auto-job
+  namespace: landmark
+spec:
+  backoffLimit: 2 # Stop After 2 Attempts
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: landmark-osm-importer-auto
+          image: landmark-osm-importer-auto
+          imagePullPolicy: Never
+          env:
+            - name: POSTGRES_HOST
+              value: "postgres-0.postgres.landmark.svc.cluster.local"
+            - name: POSTGRES_DB
+              value: "landmark_db"
+            - name: POSTGRES_USER
+              value: "landmark_user"
+            - name: POSTGRES_PASSWORD
+              value: "landmark_password"
