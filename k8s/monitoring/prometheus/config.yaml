@@ -21,6 +21,6 @@ data:
               - 'landmark-nearby.landmark.svc.cluster.local:8086'
               - 'landmark-nearify.landmark.svc.cluster.local:8084'
 
-#      - job_name: 'postgres-exporter'
-#        static_configs:
-#          - targets: ['postgres-exporter.landmark.svc.cluster.local:9187']
+      - job_name: 'postgres-exporter'
+        static_configs:
+          - targets: ['postgres-exporter.landmark.svc.cluster.local:9187']

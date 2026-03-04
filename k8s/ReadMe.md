@@ -62,6 +62,7 @@ kubectl apply -f k8s/namespaces/
 kubectl apply -f k8s/infrastructure/postgres/
 kubectl apply -f k8s/infrastructure/rabbitmq/
 kubectl apply -f k8s/infrastructure/pgadmin/
+kubectl apply -f k8s/infrastructure/postgres-exporter/
 
 
 kubectl apply -f k8s/services/landmark-nearify/

@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-exporter
+  labels:
+    app: postgres-exporter
+  namespace: landmark
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres-exporter
+  template:
+    metadata:
+      labels:
+        app: postgres-exporter
+    spec:
+      containers:
+        - name: postgres-exporter
+          image: prometheuscommunity/postgres-exporter:v0.19.0
+          ports:
+            - containerPort: 9187
+          env:
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-exporter-secret
+                  key: POSTGRES_DB
+            - name: POSTGRES_MONITORING_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-exporter-secret
+                  key: POSTGRES_MONITORING_USER
+            - name: POSTGRES_MONITORING_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-exporter-secret
+                  key: POSTGRES_MONITORING_PASSWORD
+            - name: POSTGRES_HOST
+              value: "postgres-0.postgres.landmark.svc.cluster.local"
+            - name: POSTGRES_PORT
+              value: "5432"
+            - name: DATA_SOURCE_NAME
+              value: "postgresql://${POSTGRES_MONITORING_USER}:${POSTGRES_MONITORING_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}?sslmode=disable"
