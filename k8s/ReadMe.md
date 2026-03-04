@@ -142,3 +142,15 @@ kubectl delete -f k8s/jobs/landmark-osm-import-local-job.yaml
 kubectl delete -f k8s/jobs/landmark-osm-import-auto-job.yaml
 
 ```
+
+SQL:
+```
+SELECT * FROM pg_available_extensions ;
+SELECT * FROM pg_extension;
+SELECT * FROM pg_user;
+SELECT PostGIS_Version();
+
+CREATE EXTENSION IF NOT EXISTS postgis;
+CREATE EXTENSION IF NOT EXISTS pgrouting;
+CREATE EXTENSION IF NOT EXISTS hstore;
+```

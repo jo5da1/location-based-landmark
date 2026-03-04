@@ -1,0 +1,30 @@
+# Runs Only On First Initialization
+# init.sql run only when the database directory is empty.
+# If PVC already contains data, this will NOT run.
+# To re-trigger:
+# Delete the PVC Or manually run the SQL
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-init-sql
+  namespace: landmark
+data:
+  init.sql: |
+    -- Enable required extensions
+    CREATE EXTENSION IF NOT EXISTS postgis;
+    CREATE EXTENSION IF NOT EXISTS pgrouting;
+    CREATE EXTENSION IF NOT EXISTS hstore;
+
+    -- Create monitoring user safely
+    CREATE USER landmark_monitoring_user WITH PASSWORD 'landmark_monitoring_password';
+    -- Grant monitoring privileges
+    GRANT pg_monitor TO landmark_monitoring_user;
+
+    -- Create monitoring user safely
+    CREATE USER landmark_readonly_user WITH PASSWORD 'landmark_readonly_password';
+    -- Allow connection to the database
+    GRANT CONNECT ON DATABASE landmark_db TO landmark_readonly_user;
+    -- Grant usage on schema
+    GRANT USAGE ON SCHEMA public TO landmark_readonly_user;
+    -- Grant read-only access to existing tables
+    GRANT SELECT ON ALL TABLES IN SCHEMA public TO landmark_readonly_user;
