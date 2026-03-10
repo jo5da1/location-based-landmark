@@ -46,10 +46,11 @@ logging:
     org.hibernate.SQL: WARN
 
 # rabbit queue
-landmark.request.queue: landmark.request.queue
-landmark.response.queue: landmark.response.queue
+message.queue:
+  landmark-request: message.queue.landmark.request
+  landmark-response: message.queue.landmark.response
+  category-request: message.queue.category.request
+  category-response: message.queue.category.response
 
-landmark.message.category.request: landmark.message.category.request
-landmark.message.category.response: landmark.message.category.response
 
 

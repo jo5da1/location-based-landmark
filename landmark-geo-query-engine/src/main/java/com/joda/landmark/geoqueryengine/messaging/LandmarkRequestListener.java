@@ -17,10 +17,10 @@ public class LandmarkRequestListener {
   private final LandmarksRequestNormalizer normalizer;
 
   // this is just for logging purpose. can be removed
-  @Value("${landmark.request.queue}")
+  @Value("${message.queue.landmark-request}")
   private String landmarkRequestQueue;
 
-  @RabbitListener(queues = "${landmark.request.queue}")
+  @RabbitListener(queues = "${message.queue.landmark-request}")
   public void listenLandmarkRequestQueue(LandmarksRequest request) {
     log.info("received LandmarksRequest on queue [{}]: {}", landmarkRequestQueue, request);
     LandmarksRequest normalizedRequest = normalizer.normalize(request);

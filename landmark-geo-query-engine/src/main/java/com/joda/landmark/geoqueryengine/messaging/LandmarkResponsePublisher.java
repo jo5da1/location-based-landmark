@@ -14,7 +14,7 @@ public class LandmarkResponsePublisher {
 
   public LandmarkResponsePublisher(
       RabbitTemplate rabbitTemplate,
-      @Value("${landmark.response.queue}") String landmarkResponseQueue) {
+      @Value("${message.queue.landmark-response}") String landmarkResponseQueue) {
     this.rabbitTemplate = rabbitTemplate;
     this.landmarkResponseQueue = landmarkResponseQueue;
   }

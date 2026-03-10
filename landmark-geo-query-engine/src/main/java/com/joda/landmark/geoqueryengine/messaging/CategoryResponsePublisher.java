@@ -15,7 +15,7 @@ public class CategoryResponsePublisher {
 
   public CategoryResponsePublisher(
       RabbitTemplate rabbitTemplate,
-      @Value("${landmark.message.category.response}") String categoryResponseQueue) {
+      @Value("${message.queue.category-response}") String categoryResponseQueue) {
     this.rabbitTemplate = rabbitTemplate;
     this.categoryResponseQueue = categoryResponseQueue;
   }

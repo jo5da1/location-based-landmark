@@ -15,7 +15,7 @@ class LandmarkResultPublisherTest {
 
   private RabbitTemplate rabbitTemplate;
   private LandmarkResponsePublisher publisher;
-  private final String queueName = "landmark.response.queue";
+  private final String queueName = "message.queue.landmark.response";
 
   @BeforeEach
   void setUp() {
