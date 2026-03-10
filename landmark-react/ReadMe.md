@@ -219,6 +219,6 @@ It avoids managing image files and allows easily change colors and icons for res
 
 #### Install dependencies
 ```
-npm install leaflet-awesome-markers
+npm install leaflet.awesome-markers
 npm install @fortawesome/fontawesome-free
 ```

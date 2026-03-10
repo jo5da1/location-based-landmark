@@ -3,42 +3,40 @@ import axios from "axios";
 import { MAP_CENTER } from '../constants/map';
 import { BBox, MapData } from '../types';
 import {
-        MapPoint, Landmark, Category, Coordinates, LandmarkOption,
-        LandmarkOptionsResponse,
+        MapPoint, Landmark, Coordinates, LandmarkCategory,
+        LandmarkCategoryResponse,
         LandmarksRequest, LandmarksResponse
     } from '../types/landmarkTypes';
 
 
-
-
-export const fetchLandmarkOptionsMock = async (): Promise<LandmarkOption[]> => {
+export const fetchLandmarkOptionsMock = async (): Promise<LandmarkCategory[]> => {
   console.log('MOCK!! Fetch Landmark Options');
 
-  const mockOptions: LandmarkOption[] = [
-    { id: 1, name: 'Museum' },
-    { id: 2, name: 'Park' },
-    { id: 3, name: 'Restaurant' },
-    { id: 4, name: 'Historic Site' },
-    { id: 5, name: 'Monument' },
+  const mockOptions: LandmarkCategory[] = [
+    { id: 1, category: 'Museum', subCategories: ['OK','new']},
+    { id: 2, category: 'Park', subCategories: ['OK','new'] },
+    { id: 3, category: 'Restaurant', subCategories: ['OK','new'] },
+    { id: 4, category: 'Historic Site', subCategories: ['OK','new'] },
+    { id: 5, category: 'Monument', subCategories: ['OK','new'] },
   ];
 
   return new Promise(resolve => setTimeout(() => resolve(mockOptions), 500));
 };
 
-export const fetchLandmarkOptions = async (): Promise<LandmarkOption[]> => {
+export const fetchLandmarkOptions = async (): Promise<LandmarkCategory[]> => {
 
   try {
-    console.log('Fetching Landmark Options from API...');
+    console.log('Fetching Category from API...');
 
-    const response = await axios.get<LandmarkOptionsResponse>(
-        'http://localhost:8086/api/landmark/options',
+    const response = await axios.get<LandmarkCategoryResponse>(
+        'http://localhost:8086/api/landmark/category',
         { headers: { 'Content-Type': 'application/json'} }
     );
 
     console.log('API Response: ', response.data);
-    console.log('API Response: Options: ', response.data.options);
+    console.log('API Response: Options: ', response.data.categories);
 
-    return response.data.options;
+    return response.data.categories;
 
   } catch (error) {
     console.error('Error fetching landmark options:', error);
@@ -60,14 +58,16 @@ export const fetchLandmarksMock = async (
     {
       id: "123",
       name: 'Liseberg',
-      category: { name: 'Park' },
+      category: 'Park' ,
+      subCategory: 'Park' ,
       coordinates: { latitude: 57.695, longitude: 11.993 },
       distance: 2.2
     },
     {
       id: "1234",
       name: 'Universeum',
-      category: { name: 'Museum' },
+      category:  'Museum' ,
+      subCategory:  'Museum' ,
       coordinates: { latitude: 57.6956, longitude: 11.987 },
       distance: 1.8
     },
@@ -79,12 +79,16 @@ export const fetchLandmarksMock = async (
 export const fetchLandmarks = async (
   bbox: BBox,
   options: string[],
+  subCategories: string[],
   mapPoint: MapPoint,
   zoom: number
   ): Promise<Landmark[]> => {
 
   console.log('Fetch Landmarks:');
-  console.log('BBox: ', bbox, ', Options:', options, ', Point: ', mapPoint);
+  console.log('BBox: ', bbox, 
+    ', Categories:', options,
+    ', Sub Categories:', subCategories,
+    ', Point: ', mapPoint);
 
   const request: LandmarksRequest = {
     requestId: crypto.randomUUID(),
@@ -93,7 +97,8 @@ export const fetchLandmarks = async (
       longitude: mapPoint.longitude
     },
     radius: 500,
-    categories: options,
+    categories: [],
+    subCategories: subCategories,
     page: 0,
     pageSize: 50
   };

@@ -7,7 +7,7 @@ import OptionsPanel from './components/OptionsPanel';
 import { BBox, MapData } from './types';
 import { fetchLandmarks } from './api/landmarkApi';
 import { MAP_CENTER} from './constants/map';
-import { MapPoint, Landmark, Category, Coordinates } from './types/landmarkTypes';
+import { MapPoint, Landmark, Coordinates } from './types/landmarkTypes';
 
 import axios from 'axios';
 
@@ -22,27 +22,34 @@ function App() {
   useEffect(() => {
     if (bbox && options.length > 0 && clickPos) {
 
-        fetchLandmarks(
+      fetchLandmarks(
           bbox,
+          options,
           options,
           clickPos,
           MAP_CENTER.zoom
-        )
-        .then(data => {
-            setLandmarks(data);
-            const converted: MapData[] = data.map(
-                l => ({
-                    id: l.id,
-                    lat: l.coordinates.latitude,
-                    lng: l.coordinates.longitude,
-                    info: l.name
-                }));
-            setMapData(converted);
-        })
-        .catch(err => console.error(err));
+      )
+      .then(data => {
         console.log("Position: ", clickPos);
+        console.log("Data.   : ", data);
 
+        setLandmarks(data);
 
+        const converted: MapData[] = data.map(
+          l => ({
+            id: l.id,
+            lat: l.coordinates.latitude,
+            lng: l.coordinates.longitude,
+            category: l.category,
+            subCategory: l.subCategory,
+            info: l.name
+        }));
+
+        console.log("Converted:", converted);
+
+        setMapData(converted);
+      })
+      .catch(err => console.error(err));
     }
   }, [bbox, options, clickPos]);
 

@@ -4,5 +4,7 @@ export type MapData = {
   id: string;
   lat: number;
   lng: number;
+  category: string;
+  subCategory: string;
   info: string;
 };

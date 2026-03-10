@@ -5,6 +5,9 @@ import { MapPoint } from '../types/landmarkTypes';
 
 import 'leaflet-draw';
 import { MAP_CENTER } from '../constants/map';
+import { getIcon } from '../types/leaflet.awesome-marker.d';
+
+
 
 type Props = {
   bbox: BBox | null;
@@ -67,7 +70,6 @@ const DrawCircle: React.FC<{
       // store clicked position
       setClickPos( { latitude: e.latlng.lat, longitude: e.latlng.lng });
 
-
        setRadius(radius);
     },
   });
@@ -105,9 +107,18 @@ const MapComponent: React.FC<Props> = ({
         />
       )}
 
-      {mapData.map(d => (
+     {/*  {mapData.map(d => (
         <Marker key={d.id} position={[d.lat, d.lng]}>
           <Popup>Info: {d.info}</Popup>
+        </Marker>
+      ))} */}
+
+      {mapData.map(d => (
+        <Marker
+          key={d.id}
+          position={[d.lat, d.lng]}
+          icon={getIcon(d.category, d.subCategory)}>
+          <Popup>{d.info}: {d.category}: {d.subCategory}</Popup>
         </Marker>
       ))}
     </MapContainer>

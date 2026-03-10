@@ -8,25 +8,12 @@ export type Coordinates = {
   longitude: number;
 };
 
-export type LandmarkOption = {
+export type LandmarkCategory = {
   id: number;
-  name: string;
+  category: string;
+  subCategories: string[];
 };
 
-export type Category = {
-  name: string;
-};
-
-export enum CategoryENUM {
-  RESTAURANT = "RESTAURANT",
-  CAFE = "CAFE",
-  HOTEL = "HOTEL",
-  HOSPITAL = "HOSPITAL",
-  PARK = "PARK",
-  MUSEUM = "MUSEUM",
-  SCHOOL = "SCHOOL",
-  SHOPPING_MALL = "SHOPPING_MALL",
-}
 
 export function validateCoordinates(coords: Coordinates) {
   if (coords.latitude < -90 || coords.latitude > 90) {
@@ -40,7 +27,8 @@ export function validateCoordinates(coords: Coordinates) {
 export type Landmark = {
   id: string;
   name: string;
-  category: Category;
+  category: string;
+  subCategory: string;
   coordinates: Coordinates;
   distance: number;
 }
@@ -56,10 +44,11 @@ export type LandmarksRequest = {
   coordinates: Coordinates;
   radius: number;
   categories: string[];
+  subCategories: string[];
   page?: number;
   pageSize?: number;
 }
 
-export type LandmarkOptionsResponse = {
-  options: LandmarkOption[];
+export type LandmarkCategoryResponse = {
+  categories: LandmarkCategory[];
 }
