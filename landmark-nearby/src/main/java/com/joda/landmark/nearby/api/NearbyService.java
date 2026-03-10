@@ -5,22 +5,17 @@ import com.joda.landmark.nearby.api.dto.LandmarksResponse;
 import com.joda.landmark.nearby.messaging.LandmarkResponseListener;
 import com.joda.landmark.nearby.messaging.LandmarkSearchPublisher;
 import java.util.concurrent.CompletableFuture;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class NearbyService {
 
   private final LandmarkSearchPublisher landmarkSearchPublisher;
   private final LandmarkResponseListener landmarkResponseListener;
-
-  public NearbyService(
-      LandmarkSearchPublisher landmarkSearchPublisher,
-      LandmarkResponseListener landmarkResponseListener) {
-    this.landmarkSearchPublisher = landmarkSearchPublisher;
-    this.landmarkResponseListener = landmarkResponseListener;
-  }
 
   public void publishNearbyRequest(
       CompletableFuture<LandmarksResponse> future, LandmarksRequest request) {

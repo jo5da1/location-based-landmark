@@ -8,6 +8,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class LandmarkOptionsResponse {
-  List<LandmarkOption> options;
+public class LandmarkCategoryResponse {
+  String requestId;
+  List<LandmarkCategory> categories;
 }

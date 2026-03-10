@@ -1,12 +1,11 @@
 package com.joda.landmark.nearby.api;
 
-import com.joda.landmark.nearby.api.dto.Category;
-import com.joda.landmark.nearby.api.dto.LandmarkOption;
-import com.joda.landmark.nearby.api.dto.LandmarkOptionsResponse;
+import com.joda.landmark.nearby.api.dto.LandmarkCategoryResponse;
 import com.joda.landmark.nearby.api.dto.LandmarksRequest;
 import com.joda.landmark.nearby.api.dto.LandmarksResponse;
-import java.util.List;
+import com.joda.landmark.nearby.service.CategoryService;
 import java.util.concurrent.CompletableFuture;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,12 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/landmark")
 @Slf4j
+@RequiredArgsConstructor
 public class NearbyController {
   private final NearbyService nearbyService;
-
-  public NearbyController(NearbyService nearbyService) {
-    this.nearbyService = nearbyService;
-  }
+  private final CategoryService categoryService;
 
   @GetMapping(value = "/")
   public String healthCheck() {
@@ -47,23 +44,13 @@ public class NearbyController {
   }
 
   @CrossOrigin(origins = "http://localhost:3001")
-  @GetMapping(value = "/options", produces = MediaType.APPLICATION_JSON_VALUE)
-  public CompletableFuture<LandmarkOptionsResponse> options() {
+  @GetMapping(value = "/category", produces = MediaType.APPLICATION_JSON_VALUE)
+  public CompletableFuture<LandmarkCategoryResponse> category() {
     log.info("nearby landmark options request ");
 
-    List<LandmarkOption> optionList =
-        List.of(
-            new LandmarkOption(1, Category.RESTAURANT.toString()),
-            new LandmarkOption(2, Category.CAFE.toString()),
-            new LandmarkOption(3, Category.MUSEUM.toString()));
     // CompletableFuture to hold the result
-    CompletableFuture<LandmarkOptionsResponse> future = new CompletableFuture<>();
-    LandmarkOptionsResponse landmarkOptionsResponse = new LandmarkOptionsResponse();
-    landmarkOptionsResponse.setOptions(optionList);
-
-    future.complete(landmarkOptionsResponse);
-
-    log.info("nearby landmark options response: {}", optionList);
+    CompletableFuture<LandmarkCategoryResponse> future = new CompletableFuture<>();
+    categoryService.publishCategoryRequest(future, "category-request");
 
     return future;
   }

@@ -9,56 +9,19 @@ import lombok.ToString;
 @Setter
 @ToString
 public class LandmarksRequest {
-  private String requestId;
 
+  private String requestId;
   private Coordinates coordinates;
   private int radius;
-  private List<Category> categories;
+  private List<String> categories;
+  private List<String> subCategories;
   private Integer page;
   private Integer pageSize;
-
-  public LandmarksRequest() {}
-
-  public Coordinates getCoordinates() {
-    return coordinates;
-  }
-
-  public void setCoordinates(Coordinates coordinates) {
-    this.coordinates = coordinates;
-  }
-
-  public int getRadius() {
-    return radius;
-  }
 
   public void setRadius(int radius) {
     if (radius < 1 || radius > 50000) {
       throw new IllegalArgumentException("Radius must be between 1 and 50000 meters");
     }
     this.radius = radius;
-  }
-
-  public List<Category> getCategories() {
-    return categories;
-  }
-
-  public void setCategories(List<Category> categories) {
-    this.categories = categories;
-  }
-
-  public Integer getPage() {
-    return page;
-  }
-
-  public void setPage(Integer page) {
-    this.page = page;
-  }
-
-  public Integer getPageSize() {
-    return pageSize;
-  }
-
-  public void setPageSize(Integer pageSize) {
-    this.pageSize = pageSize;
   }
 }
