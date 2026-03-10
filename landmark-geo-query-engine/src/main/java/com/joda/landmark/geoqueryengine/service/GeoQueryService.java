@@ -1,13 +1,16 @@
 package com.joda.landmark.geoqueryengine.service;
 
 import com.joda.landmark.geoqueryengine.messaging.LandmarkResponsePublisher;
+import com.joda.landmark.geoqueryengine.messaging.LandmarksRequestNormalizer;
 import com.joda.landmark.geoqueryengine.messaging.dto.Category;
 import com.joda.landmark.geoqueryengine.messaging.dto.Coordinates;
 import com.joda.landmark.geoqueryengine.messaging.dto.Landmark;
 import com.joda.landmark.geoqueryengine.messaging.dto.LandmarksRequest;
 import com.joda.landmark.geoqueryengine.messaging.dto.LandmarksResponse;
+import com.joda.landmark.geoqueryengine.messaging.dto.SubCategory;
 import com.joda.landmark.geoqueryengine.persistence.PlanetOsmPoint;
 import com.joda.landmark.geoqueryengine.persistence.PlanetOsmPointRepository;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,18 +26,32 @@ public class GeoQueryService {
 
   private final LandmarkResponsePublisher landmarkResultPublisher;
   private final PlanetOsmPointRepository planetOsmPointRepository;
+  private final LandmarksRequestNormalizer normalizer;
 
   public LandmarksResponse searchNearby(LandmarksRequest request) {
-
+    request = normalizer.normalize(request);
     validateRequest(request);
 
     log.info(
-        "Processing landmark request: requestId={}, category={}, radius={}",
+        "Processing landmark request: requestId={}, category={}, subCategory={}, radius={}",
         request.requestId(),
         request.categories(),
+        request.subCategories(),
         request.radius());
 
-    List<String> amenities = request.categories().stream().map(this::mapCategoryToAmenity).toList();
+    List<String> categories =
+        request.categories().stream().map(this::mapCategoryToAmenity).toList();
+    List<String> subCategories =
+        request.subCategories().stream().map(this::mapSubCategoryToAmenity).toList();
+
+    List<String> amenities = new ArrayList<>(categories);
+    amenities.addAll(subCategories);
+
+    log.info(
+        "Processing landmark request: requestId={}, amenities={},  radius={}",
+        request.requestId(),
+        amenities,
+        request.radius());
 
     List<PlanetOsmPoint> dbPoints =
         planetOsmPointRepository.findNearbyByAmenity(
@@ -101,6 +118,7 @@ public class GeoQueryService {
     return new Landmark(
         point.getName(),
         mapAmenityToCategory(point.getAmenity()),
+        mapAmenityToSubCategory(point.getAmenity()),
         new Coordinates(
             point.getWay().getY(), // latitude
             point.getWay().getX() // longitude
@@ -115,18 +133,40 @@ public class GeoQueryService {
     }
 
     try {
-      return Category.valueOf(amenity.toUpperCase());
+      SubCategory subCategory = SubCategory.valueOf(amenity.toUpperCase());
+      return subCategory.getParentCategory();
     } catch (IllegalArgumentException ex) {
       log.warn("Unknown amenity from DB: {}", amenity);
       return null;
     }
   }
 
-  private String mapCategoryToAmenity(Category category) {
+  private SubCategory mapAmenityToSubCategory(String amenity) {
+    if (amenity == null) {
+      return null;
+    }
+
+    try {
+      return SubCategory.valueOf(amenity.toUpperCase());
+
+    } catch (IllegalArgumentException ex) {
+      log.warn("Unknown amenity from DB: {}", amenity);
+      return null;
+    }
+  }
+
+  private String mapCategoryToAmenity(String category) {
     if (category == null) {
       return "cafe"; // TODO: fallback default
     }
-    return category.name().toLowerCase();
+    return category.toLowerCase();
+  }
+
+  private String mapSubCategoryToAmenity(String subCategory) {
+    if (subCategory == null) {
+      return "cafe"; // TODO: fallback default
+    }
+    return subCategory.toLowerCase();
   }
 
   private LandmarksResponse testSearchNearby(LandmarksRequest request) {
@@ -145,26 +185,31 @@ public class GeoQueryService {
 
   private Landmark getCentralPark() {
     Coordinates coordinates = new Coordinates(40.785091, -73.968285);
-    return new Landmark("Central Park", Category.PARK, coordinates, 320);
+    return new Landmark(
+        "Central Park", Category.PUBLIC_FACILITIES, SubCategory.BENCH, coordinates, 320);
   }
 
   private Landmark getJoeCoffee() {
     Coordinates coordinates = new Coordinates(40.730610, -73.935242);
-    return new Landmark("Joe's Coffee", Category.CAFE, coordinates, 1200);
+    return new Landmark(
+        "Joe's Coffee", Category.FOOD_AND_DRINK, SubCategory.CAFE, coordinates, 1200);
   }
 
   private Landmark getFancyRestaurant() {
     Coordinates coordinates = new Coordinates(40.718267, -74.002242);
-    return new Landmark("Fancy Restaurant", Category.RESTAURANT, coordinates, 500);
+    return new Landmark(
+        "Fancy Restaurant", Category.FOOD_AND_DRINK, SubCategory.RESTAURANT, coordinates, 500);
   }
 
   private Landmark getLillaIstanbul() {
     Coordinates coordinates = new Coordinates(57.72495531608793, 11.949546931031295);
-    return new Landmark("Lilla Istanbul", Category.RESTAURANT, coordinates, 500);
+    return new Landmark(
+        "Lilla Istanbul", Category.FOOD_AND_DRINK, SubCategory.RESTAURANT, coordinates, 500);
   }
 
   private Landmark getShahanaGrillAndKok() {
     Coordinates coordinates = new Coordinates(57.72307433992, 11.929296026880738);
-    return new Landmark("Shahana Grill & Kök", Category.RESTAURANT, coordinates, 500);
+    return new Landmark(
+        "Shahana Grill & Kök", Category.FOOD_AND_DRINK, SubCategory.RESTAURANT, coordinates, 500);
   }
 }

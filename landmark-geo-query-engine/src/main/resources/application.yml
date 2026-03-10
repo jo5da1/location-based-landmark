@@ -48,3 +48,8 @@ logging:
 # rabbit queue
 landmark.request.queue: landmark.request.queue
 landmark.response.queue: landmark.response.queue
+
+landmark.message.category.request: landmark.message.category.request
+landmark.message.category.response: landmark.message.category.response
+
+

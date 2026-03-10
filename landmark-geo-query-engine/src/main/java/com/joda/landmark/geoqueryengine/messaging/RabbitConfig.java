@@ -23,6 +23,16 @@ public class RabbitConfig {
   }
 
   @Bean
+  public Queue categoryRequestQueue() {
+    return new Queue("landmark.message.category.request", true);
+  }
+
+  @Bean
+  public Queue categoryResponseQueue() {
+    return new Queue("landmark.message.category.response", true);
+  }
+
+  @Bean
   public JacksonJsonMessageConverter jacksonJsonMessageConverter(ObjectMapper objectMapper) {
     return new JacksonJsonMessageConverter((JsonMapper) objectMapper);
   }

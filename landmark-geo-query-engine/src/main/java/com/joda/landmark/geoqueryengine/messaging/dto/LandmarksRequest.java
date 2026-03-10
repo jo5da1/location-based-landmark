@@ -8,7 +8,8 @@ import java.util.List;
 
 public record LandmarksRequest(
     String requestId,
-    @NotEmpty List<Category> categories,
+    @NotEmpty List<String> categories,
+    @NotEmpty List<String> subCategories,
     @NotNull @Valid Coordinates coordinates,
     @Min(0) int page,
     @Min(1) int pageSize,
