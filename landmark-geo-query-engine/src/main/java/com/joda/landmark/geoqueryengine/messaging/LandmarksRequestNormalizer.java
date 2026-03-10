@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class LandmarksRequestNormalizer {
 
-  private static final List<Category> ALL_CATEGORIES = List.of(Category.values());
-  private static final List<SubCategory> ALL_SUBCATEGORIES = List.of(SubCategory.values());
+  public static final List<Category> ALL_CATEGORIES = List.of(Category.values());
+  public static final List<SubCategory> ALL_SUBCATEGORIES = List.of(SubCategory.values());
 
   public LandmarksRequest normalize(LandmarksRequest request) {
 
@@ -24,6 +24,30 @@ public class LandmarksRequestNormalizer {
             ? new ArrayList<>(request.subCategories())
             : new ArrayList<>();
 
+    // category correction
+    List<String> correctedCategories = new ArrayList<>();
+    List<String> correctedSubCategories = new ArrayList<>();
+
+    for (String value : categories) {
+      if (isSubCategory(value)) {
+        correctedSubCategories.add(value);
+      } else if (isCategory(value)) {
+        correctedCategories.add(value);
+      }
+    }
+
+    for (String value : subCategories) {
+      if (isSubCategory(value)) {
+        correctedSubCategories.add(value);
+      } else if (isCategory(value)) {
+        correctedCategories.add(value);
+      }
+    }
+
+    categories = correctedCategories.stream().distinct().toList();
+    subCategories = correctedSubCategories.stream().distinct().toList();
+
+    // normalization
     if (isEmpty(categories) && !isEmpty(subCategories)) {
       categories =
           subCategories.stream()
@@ -53,6 +77,13 @@ public class LandmarksRequestNormalizer {
         request.radius());
   }
 
+  public List<String> getSubCategories(Category category) {
+    return LandmarksRequestNormalizer.ALL_SUBCATEGORIES.stream()
+        .filter(s -> s.getParentCategory() == category)
+        .map(Enum::name)
+        .toList();
+  }
+
   private boolean isEmpty(List<?> list) {
     return list == null || list.isEmpty();
   }
@@ -62,6 +93,24 @@ public class LandmarksRequestNormalizer {
       return SubCategory.valueOf(name);
     } catch (Exception e) {
       return null;
+    }
+  }
+
+  private boolean isCategory(String name) {
+    try {
+      Category.valueOf(name);
+      return true;
+    } catch (Exception e) {
+      return false;
+    }
+  }
+
+  private boolean isSubCategory(String name) {
+    try {
+      SubCategory.valueOf(name);
+      return true;
+    } catch (Exception e) {
+      return false;
     }
   }
 }

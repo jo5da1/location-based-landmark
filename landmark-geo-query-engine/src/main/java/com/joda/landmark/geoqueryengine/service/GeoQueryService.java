@@ -111,10 +111,11 @@ public class GeoQueryService {
     Assert.notNull(request, "LandmarksRequest must not be null");
     Assert.notNull(request.coordinates(), "Coordinates must not be null");
     Assert.notEmpty(request.categories(), "Categories must not be empty");
+    Assert.notEmpty(request.subCategories(), "Sub Categories must not be empty");
   }
 
   private Landmark mapPointToLandmark(PlanetOsmPoint point) {
-    log.info("Converting Point to Landmark: {}", point);
+    // log.info("Converting Point to Landmark: {}", point);
     return new Landmark(
         point.getName(),
         mapAmenityToCategory(point.getAmenity()),
