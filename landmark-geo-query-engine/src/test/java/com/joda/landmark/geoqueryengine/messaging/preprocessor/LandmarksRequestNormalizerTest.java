@@ -1,4 +1,4 @@
-package com.joda.landmark.geoqueryengine.messaging;
+package com.joda.landmark.geoqueryengine.messaging.preprocessor;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

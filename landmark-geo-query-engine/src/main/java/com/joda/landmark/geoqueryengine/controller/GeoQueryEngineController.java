@@ -1,10 +1,10 @@
 package com.joda.landmark.geoqueryengine.controller;
 
-import com.joda.landmark.geoqueryengine.messaging.CategoryRequestPublisher;
-import com.joda.landmark.geoqueryengine.messaging.LandmarkRequestPublisher;
 import com.joda.landmark.geoqueryengine.messaging.dto.LandmarkCategoryResponse;
 import com.joda.landmark.geoqueryengine.messaging.dto.LandmarksRequest;
 import com.joda.landmark.geoqueryengine.messaging.dto.LandmarksResponse;
+import com.joda.landmark.geoqueryengine.messaging.publisher.CategoryRequestPublisher;
+import com.joda.landmark.geoqueryengine.messaging.publisher.LandmarkRequestPublisher;
 import com.joda.landmark.geoqueryengine.service.CategoryService;
 import com.joda.landmark.geoqueryengine.service.GeoQueryService;
 import lombok.RequiredArgsConstructor;
@@ -40,7 +40,7 @@ public class GeoQueryEngineController {
   public ResponseEntity<String> nearby(@RequestBody(required = true) LandmarksRequest request) {
     log.info("Endpoint: Async [/nearby], request: {}", request);
 
-    landmarkSearchPublisher.sendToLandmarkRequestQueue(request);
+    landmarkSearchPublisher.sendToQueue(request);
     return ResponseEntity.accepted().body("Request sent for processing");
   }
 
@@ -50,7 +50,7 @@ public class GeoQueryEngineController {
       @RequestBody(required = true) LandmarksRequest request) {
     log.info("Endpoint: Sync [/nearby-sync], request: {}", request);
 
-    LandmarksResponse response = geoQueryService.searchNearby(request);
+    LandmarksResponse response = geoQueryService.getLandmarks(request);
     return ResponseEntity.ok(response);
   }
 
@@ -59,7 +59,7 @@ public class GeoQueryEngineController {
   public ResponseEntity<String> category() {
     log.info("Endpoint: Async [/category]");
 
-    categoryRequestPublisher.sendToCategoryRequestQueue("category");
+    categoryRequestPublisher.sendToQueue("category");
     return ResponseEntity.accepted().body("Request sent for processing");
   }
 

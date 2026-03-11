@@ -1,13 +1,13 @@
 package com.joda.landmark.geoqueryengine.service;
 
-import com.joda.landmark.geoqueryengine.messaging.LandmarkResponsePublisher;
-import com.joda.landmark.geoqueryengine.messaging.LandmarksRequestNormalizer;
 import com.joda.landmark.geoqueryengine.messaging.dto.Category;
 import com.joda.landmark.geoqueryengine.messaging.dto.Coordinates;
 import com.joda.landmark.geoqueryengine.messaging.dto.Landmark;
 import com.joda.landmark.geoqueryengine.messaging.dto.LandmarksRequest;
 import com.joda.landmark.geoqueryengine.messaging.dto.LandmarksResponse;
 import com.joda.landmark.geoqueryengine.messaging.dto.SubCategory;
+import com.joda.landmark.geoqueryengine.messaging.preprocessor.LandmarksRequestNormalizer;
+import com.joda.landmark.geoqueryengine.messaging.publisher.LandmarkResponsePublisher;
 import com.joda.landmark.geoqueryengine.persistence.PlanetOsmPoint;
 import com.joda.landmark.geoqueryengine.persistence.PlanetOsmPointRepository;
 import java.util.ArrayList;
@@ -24,12 +24,17 @@ import org.springframework.util.Assert;
 @RequiredArgsConstructor
 public class GeoQueryService {
 
-  private final LandmarkResponsePublisher landmarkResultPublisher;
+  private final LandmarkResponsePublisher landmarkResponsePublisher;
   private final PlanetOsmPointRepository planetOsmPointRepository;
   private final LandmarksRequestNormalizer normalizer;
 
-  public LandmarksResponse searchNearby(LandmarksRequest request) {
+  public LandmarksResponse getLandmarks(LandmarksRequest request) {
     request = normalizer.normalize(request);
+    return searchNearby(request);
+  }
+
+  private LandmarksResponse searchNearby(LandmarksRequest request) {
+
     validateRequest(request);
 
     log.info(
@@ -39,13 +44,9 @@ public class GeoQueryService {
         request.subCategories(),
         request.radius());
 
-    List<String> categories =
-        request.categories().stream().map(this::mapCategoryToAmenity).toList();
-    List<String> subCategories =
-        request.subCategories().stream().map(this::mapSubCategoryToAmenity).toList();
-
-    List<String> amenities = new ArrayList<>(categories);
-    amenities.addAll(subCategories);
+    List<String> amenities = new ArrayList<>();
+    amenities.addAll(request.categories().stream().map(this::mapCategoryToAmenity).toList());
+    amenities.addAll(request.subCategories().stream().map(this::mapSubCategoryToAmenity).toList());
 
     log.info(
         "Processing landmark request: requestId={}, amenities={},  radius={}",
@@ -70,14 +71,14 @@ public class GeoQueryService {
   public void process(LandmarksRequest request) {
 
     try {
-      LandmarksResponse nearbyResponse = searchNearby(request);
+      LandmarksResponse landmarksResponse = searchNearby(request);
 
-      landmarkResultPublisher.sendToLandmarkResponseQueue(nearbyResponse);
+      landmarkResponsePublisher.sendToQueue(landmarksResponse);
 
       log.info(
           "Published response for requestId={}, count={}",
           request.requestId(),
-          nearbyResponse.totalCount());
+          landmarksResponse.totalCount());
 
     } catch (IllegalArgumentException ex) {
       // Validation failures
@@ -98,7 +99,7 @@ public class GeoQueryService {
     } catch (Exception ex) {
       // Unexpected failures (DB, messaging, mapping, etc.)
       log.error(
-          "Failed to process landmark request. requestId={}, category={}, radius={}",
+          "Failed to process landmark request. requestId={}",
           request != null ? request.requestId() : "null",
           ex);
       ex.printStackTrace();
@@ -115,7 +116,7 @@ public class GeoQueryService {
   }
 
   private Landmark mapPointToLandmark(PlanetOsmPoint point) {
-    // log.info("Converting Point to Landmark: {}", point);
+    log.debug("Converting Point to Landmark: {}", point);
     return new Landmark(
         point.getName(),
         mapAmenityToCategory(point.getAmenity()),
@@ -157,16 +158,10 @@ public class GeoQueryService {
   }
 
   private String mapCategoryToAmenity(String category) {
-    if (category == null) {
-      return "cafe"; // TODO: fallback default
-    }
     return category.toLowerCase();
   }
 
   private String mapSubCategoryToAmenity(String subCategory) {
-    if (subCategory == null) {
-      return "cafe"; // TODO: fallback default
-    }
     return subCategory.toLowerCase();
   }
 

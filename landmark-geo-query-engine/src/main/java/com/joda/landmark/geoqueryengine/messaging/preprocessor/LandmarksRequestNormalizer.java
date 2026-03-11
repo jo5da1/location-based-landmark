@@ -1,4 +1,4 @@
-package com.joda.landmark.geoqueryengine.messaging;
+package com.joda.landmark.geoqueryengine.messaging.preprocessor;
 
 import com.joda.landmark.geoqueryengine.messaging.dto.Category;
 import com.joda.landmark.geoqueryengine.messaging.dto.LandmarksRequest;
@@ -6,15 +6,19 @@ import com.joda.landmark.geoqueryengine.messaging.dto.SubCategory;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 @Component
+@Slf4j
 public class LandmarksRequestNormalizer {
 
   public static final List<Category> ALL_CATEGORIES = List.of(Category.values());
   public static final List<SubCategory> ALL_SUBCATEGORIES = List.of(SubCategory.values());
 
   public LandmarksRequest normalize(LandmarksRequest request) {
+
+    log.info("LandmarksRequestNormalizer");
 
     List<String> categories =
         request.categories() != null ? new ArrayList<>(request.categories()) : new ArrayList<>();

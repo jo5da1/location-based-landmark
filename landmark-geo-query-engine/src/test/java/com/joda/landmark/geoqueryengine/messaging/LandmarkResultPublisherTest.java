@@ -6,6 +6,7 @@ import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.anyString;
 
 import com.joda.landmark.geoqueryengine.messaging.dto.LandmarksResponse;
+import com.joda.landmark.geoqueryengine.messaging.publisher.LandmarkResponsePublisher;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -29,7 +30,7 @@ class LandmarkResultPublisherTest {
     LandmarksResponse response = new LandmarksResponse("requestid", 1, null);
 
     // Act
-    publisher.sendToLandmarkResponseQueue(response);
+    publisher.sendToQueue(response);
 
     // Assert
     ArgumentCaptor<LandmarksResponse> captor = ArgumentCaptor.forClass(LandmarksResponse.class);
@@ -48,7 +49,7 @@ class LandmarkResultPublisherTest {
         .convertAndSend(anyString(), (Object) any());
 
     // Act
-    publisher.sendToLandmarkResponseQueue(response);
+    publisher.sendToQueue(response);
 
     // Assert
     // Verify that convertAndSend was called

@@ -1,10 +1,10 @@
 package com.joda.landmark.geoqueryengine.service;
 
-import com.joda.landmark.geoqueryengine.messaging.CategoryResponsePublisher;
 import com.joda.landmark.geoqueryengine.messaging.dto.Category;
 import com.joda.landmark.geoqueryengine.messaging.dto.LandmarkCategory;
 import com.joda.landmark.geoqueryengine.messaging.dto.LandmarkCategoryResponse;
 import com.joda.landmark.geoqueryengine.messaging.dto.SubCategory;
+import com.joda.landmark.geoqueryengine.messaging.publisher.CategoryResponsePublisher;
 import java.util.Arrays;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -35,11 +35,11 @@ public class CategoryService {
     LandmarkCategoryResponse landmarkCategoryResponse = new LandmarkCategoryResponse();
     landmarkCategoryResponse.setRequestId(request);
     landmarkCategoryResponse.setCategories(categories);
+
     return landmarkCategoryResponse;
   }
 
   public void process(String request) {
-
-    categoryResponsePublisher.sendToCategoryResponseQueue(getCategory(request));
+    categoryResponsePublisher.sendToQueue(getCategory(request));
   }
 }
