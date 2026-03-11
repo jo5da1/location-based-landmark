@@ -1,17 +1,15 @@
 package com.joda.landmark.geoqueryengine.messaging;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class MessageListener<T> {
+@RequiredArgsConstructor
+public abstract class AbstractMessageListener<T> {
 
-  private final String queueName;
   private final MessageProcessor<T> processor;
 
-  public MessageListener(String queueName, MessageProcessor<T> processor) {
-    this.queueName = queueName;
-    this.processor = processor;
-  }
+  private final String queueName;
 
   public void handleMessage(T message) {
 
@@ -19,7 +17,7 @@ public class MessageListener<T> {
 
     T processed = processor.preprocess(message);
 
-    log.info("Processed message on queue [{}]: {}", queueName, processed);
+    log.info("Pre Processed message on queue [{}]: {}", queueName, processed);
 
     processor.process(processed);
   }

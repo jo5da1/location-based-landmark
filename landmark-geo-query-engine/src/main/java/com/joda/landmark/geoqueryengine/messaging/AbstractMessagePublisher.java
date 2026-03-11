@@ -4,12 +4,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
 @Slf4j
-public abstract class MessagePublisher<T> {
+public abstract class AbstractMessagePublisher<T> {
 
   private final RabbitTemplate rabbitTemplate;
   private final String queueName;
 
-  public MessagePublisher(RabbitTemplate rabbitTemplate, String queueName) {
+  public AbstractMessagePublisher(RabbitTemplate rabbitTemplate, String queueName) {
     this.rabbitTemplate = rabbitTemplate;
     this.queueName = queueName;
   }
