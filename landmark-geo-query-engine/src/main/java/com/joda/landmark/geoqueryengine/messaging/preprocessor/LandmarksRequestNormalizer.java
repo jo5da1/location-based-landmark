@@ -1,8 +1,8 @@
 package com.joda.landmark.geoqueryengine.messaging.preprocessor;
 
-import com.joda.landmark.geoqueryengine.messaging.dto.Category;
+import com.joda.landmark.geoqueryengine.messaging.dto.AmenityCategory;
+import com.joda.landmark.geoqueryengine.messaging.dto.AmenitySubCategory;
 import com.joda.landmark.geoqueryengine.messaging.dto.LandmarksRequest;
-import com.joda.landmark.geoqueryengine.messaging.dto.SubCategory;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -13,8 +13,9 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class LandmarksRequestNormalizer {
 
-  public static final List<Category> ALL_CATEGORIES = List.of(Category.values());
-  public static final List<SubCategory> ALL_SUBCATEGORIES = List.of(SubCategory.values());
+  public static final List<AmenityCategory> ALL_CATEGORIES = List.of(AmenityCategory.values());
+  public static final List<AmenitySubCategory> ALL_SUBCATEGORIES =
+      List.of(AmenitySubCategory.values());
 
   public LandmarksRequest normalize(LandmarksRequest request) {
 
@@ -81,7 +82,7 @@ public class LandmarksRequestNormalizer {
         request.radius());
   }
 
-  public List<String> getSubCategories(Category category) {
+  public List<String> getSubCategories(AmenityCategory category) {
     return LandmarksRequestNormalizer.ALL_SUBCATEGORIES.stream()
         .filter(s -> s.getParentCategory() == category)
         .map(Enum::name)
@@ -92,9 +93,9 @@ public class LandmarksRequestNormalizer {
     return list == null || list.isEmpty();
   }
 
-  private SubCategory safeValueOf(String name) {
+  private AmenitySubCategory safeValueOf(String name) {
     try {
-      return SubCategory.valueOf(name);
+      return AmenitySubCategory.valueOf(name);
     } catch (Exception e) {
       return null;
     }
@@ -102,7 +103,7 @@ public class LandmarksRequestNormalizer {
 
   private boolean isCategory(String name) {
     try {
-      Category.valueOf(name);
+      AmenityCategory.valueOf(name);
       return true;
     } catch (Exception e) {
       return false;
@@ -111,7 +112,7 @@ public class LandmarksRequestNormalizer {
 
   private boolean isSubCategory(String name) {
     try {
-      SubCategory.valueOf(name);
+      AmenitySubCategory.valueOf(name);
       return true;
     } catch (Exception e) {
       return false;

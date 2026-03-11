@@ -2,10 +2,10 @@ package com.joda.landmark.geoqueryengine.messaging.preprocessor;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.joda.landmark.geoqueryengine.messaging.dto.Category;
+import com.joda.landmark.geoqueryengine.messaging.dto.AmenityCategory;
+import com.joda.landmark.geoqueryengine.messaging.dto.AmenitySubCategory;
 import com.joda.landmark.geoqueryengine.messaging.dto.Coordinates;
 import com.joda.landmark.geoqueryengine.messaging.dto.LandmarksRequest;
-import com.joda.landmark.geoqueryengine.messaging.dto.SubCategory;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,8 +27,8 @@ class LandmarksRequestNormalizerTest {
     LandmarksRequest request =
         new LandmarksRequest(
             "req1",
-            List.of(Category.FOOD_AND_DRINK.name()),
-            List.of(SubCategory.RESTAURANT.name()),
+            List.of(AmenityCategory.FOOD_AND_DRINK.name()),
+            List.of(AmenitySubCategory.RESTAURANT.name()),
             new Coordinates(1.1, 1.2),
             1,
             10,
@@ -36,8 +36,8 @@ class LandmarksRequestNormalizerTest {
 
     LandmarksRequest result = normalizer.normalize(request);
 
-    assertThat(result.categories()).containsExactly(Category.FOOD_AND_DRINK.name());
-    assertThat(result.subCategories()).containsExactly(SubCategory.RESTAURANT.name());
+    assertThat(result.categories()).containsExactly(AmenityCategory.FOOD_AND_DRINK.name());
+    assertThat(result.subCategories()).containsExactly(AmenitySubCategory.RESTAURANT.name());
 
     System.out.println(request);
     System.out.println(result);
@@ -50,7 +50,7 @@ class LandmarksRequestNormalizerTest {
         new LandmarksRequest(
             "req1",
             null,
-            List.of(SubCategory.RESTAURANT.name()),
+            List.of(AmenitySubCategory.RESTAURANT.name()),
             new Coordinates(1.1, 1.2),
             1,
             10,
@@ -60,11 +60,11 @@ class LandmarksRequestNormalizerTest {
 
     assertThat(result.categories()).isNotEmpty();
     assertThat(result.categories()).size().isEqualTo(1);
-    assertThat(result.categories()).containsExactly(Category.FOOD_AND_DRINK.name());
+    assertThat(result.categories()).containsExactly(AmenityCategory.FOOD_AND_DRINK.name());
 
     assertThat(result.subCategories()).isNotEmpty();
     assertThat(result.subCategories()).size().isEqualTo(1);
-    assertThat(result.subCategories()).containsExactly(SubCategory.RESTAURANT.name());
+    assertThat(result.subCategories()).containsExactly(AmenitySubCategory.RESTAURANT.name());
 
     System.out.println(request);
     System.out.println(result);
@@ -76,7 +76,7 @@ class LandmarksRequestNormalizerTest {
     LandmarksRequest request =
         new LandmarksRequest(
             "req1",
-            List.of(Category.FOOD_AND_DRINK.name()),
+            List.of(AmenityCategory.FOOD_AND_DRINK.name()),
             null,
             new Coordinates(1.1, 1.2),
             1,
@@ -86,13 +86,13 @@ class LandmarksRequestNormalizerTest {
     LandmarksRequest result = normalizer.normalize(request);
 
     //
-    assertThat(result.categories()).containsExactly(Category.FOOD_AND_DRINK.name());
+    assertThat(result.categories()).containsExactly(AmenityCategory.FOOD_AND_DRINK.name());
     assertThat(result.categories().size()).isEqualTo(1);
 
     assertThat(result.subCategories())
-        .containsAll(normalizer.getSubCategories(Category.FOOD_AND_DRINK));
+        .containsAll(normalizer.getSubCategories(AmenityCategory.FOOD_AND_DRINK));
     assertThat(result.subCategories().size())
-        .isEqualTo(normalizer.getSubCategories(Category.FOOD_AND_DRINK).size());
+        .isEqualTo(normalizer.getSubCategories(AmenityCategory.FOOD_AND_DRINK).size());
 
     System.out.println(request);
     System.out.println(result);
@@ -104,7 +104,7 @@ class LandmarksRequestNormalizerTest {
     LandmarksRequest request =
         new LandmarksRequest(
             "req1",
-            List.of(Category.FOOD_AND_DRINK.name(), Category.ACCOMMODATION.name()),
+            List.of(AmenityCategory.FOOD_AND_DRINK.name(), AmenityCategory.ACCOMMODATION.name()),
             null,
             new Coordinates(1.1, 1.2),
             1,
@@ -115,18 +115,19 @@ class LandmarksRequestNormalizerTest {
 
     // assert
     assertThat(result.categories())
-        .containsAll(List.of(Category.FOOD_AND_DRINK.name(), Category.ACCOMMODATION.name()));
+        .containsAll(
+            List.of(AmenityCategory.FOOD_AND_DRINK.name(), AmenityCategory.ACCOMMODATION.name()));
     assertThat(result.categories().size()).isEqualTo(2);
 
     assertThat(result.subCategories())
-        .containsAll(normalizer.getSubCategories(Category.FOOD_AND_DRINK));
+        .containsAll(normalizer.getSubCategories(AmenityCategory.FOOD_AND_DRINK));
     assertThat(result.subCategories())
-        .containsAll(normalizer.getSubCategories(Category.ACCOMMODATION));
+        .containsAll(normalizer.getSubCategories(AmenityCategory.ACCOMMODATION));
 
     assertThat(result.subCategories().size())
         .isEqualTo(
-            normalizer.getSubCategories(Category.FOOD_AND_DRINK).size()
-                + normalizer.getSubCategories(Category.ACCOMMODATION).size());
+            normalizer.getSubCategories(AmenityCategory.FOOD_AND_DRINK).size()
+                + normalizer.getSubCategories(AmenityCategory.ACCOMMODATION).size());
 
     //
     System.out.println(request);
@@ -140,7 +141,7 @@ class LandmarksRequestNormalizerTest {
         new LandmarksRequest(
             "req1",
             null,
-            List.of(SubCategory.RESTAURANT.name(), SubCategory.SPA.name()),
+            List.of(AmenitySubCategory.RESTAURANT.name(), AmenitySubCategory.SPA.name()),
             new Coordinates(1.1, 1.2),
             1,
             10,
@@ -150,11 +151,12 @@ class LandmarksRequestNormalizerTest {
 
     // assert
     assertThat(result.categories())
-        .containsAll(List.of(Category.FOOD_AND_DRINK.name(), Category.ACCOMMODATION.name()));
+        .containsAll(
+            List.of(AmenityCategory.FOOD_AND_DRINK.name(), AmenityCategory.ACCOMMODATION.name()));
     assertThat(result.categories().size()).isEqualTo(2);
 
-    assertThat(result.subCategories()).contains(SubCategory.RESTAURANT.name());
-    assertThat(result.subCategories()).contains(SubCategory.SPA.name());
+    assertThat(result.subCategories()).contains(AmenitySubCategory.RESTAURANT.name());
+    assertThat(result.subCategories()).contains(AmenitySubCategory.SPA.name());
 
     assertThat(result.subCategories().size()).isEqualTo(2);
 

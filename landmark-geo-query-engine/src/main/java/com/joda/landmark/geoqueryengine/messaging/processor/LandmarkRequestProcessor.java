@@ -3,7 +3,7 @@ package com.joda.landmark.geoqueryengine.messaging.processor;
 import com.joda.landmark.geoqueryengine.messaging.MessageProcessor;
 import com.joda.landmark.geoqueryengine.messaging.dto.LandmarksRequest;
 import com.joda.landmark.geoqueryengine.messaging.preprocessor.LandmarksRequestNormalizer;
-import com.joda.landmark.geoqueryengine.service.GeoQueryService;
+import com.joda.landmark.geoqueryengine.service.LandmarkService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class LandmarkRequestProcessor implements MessageProcessor<LandmarksRequest> {
 
-  private final GeoQueryService geoQueryService;
+  private final LandmarkService landmarkService;
   private final LandmarksRequestNormalizer normalizer;
 
   @Override
@@ -21,6 +21,6 @@ public class LandmarkRequestProcessor implements MessageProcessor<LandmarksReque
 
   @Override
   public void process(LandmarksRequest request) {
-    geoQueryService.process(request);
+    landmarkService.process(request);
   }
 }

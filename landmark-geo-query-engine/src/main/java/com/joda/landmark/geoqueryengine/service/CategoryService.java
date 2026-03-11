@@ -1,9 +1,9 @@
 package com.joda.landmark.geoqueryengine.service;
 
-import com.joda.landmark.geoqueryengine.messaging.dto.Category;
+import com.joda.landmark.geoqueryengine.messaging.dto.AmenityCategory;
+import com.joda.landmark.geoqueryengine.messaging.dto.AmenitySubCategory;
 import com.joda.landmark.geoqueryengine.messaging.dto.LandmarkCategory;
 import com.joda.landmark.geoqueryengine.messaging.dto.LandmarkCategoryResponse;
-import com.joda.landmark.geoqueryengine.messaging.dto.SubCategory;
 import com.joda.landmark.geoqueryengine.messaging.publisher.CategoryResponsePublisher;
 import java.util.Arrays;
 import java.util.List;
@@ -20,13 +20,13 @@ public class CategoryService {
 
   public LandmarkCategoryResponse getCategory(String request) {
     List<LandmarkCategory> categories =
-        Arrays.stream(Category.values())
+        Arrays.stream(AmenityCategory.values())
             .map(
                 cat ->
                     new LandmarkCategory(
                         cat.ordinal() + 1,
                         cat.toString(),
-                        Arrays.stream(SubCategory.values())
+                        Arrays.stream(AmenitySubCategory.values())
                             .filter(subCat -> subCat.getParentCategory() == cat)
                             .map(Enum::name)
                             .toList()))

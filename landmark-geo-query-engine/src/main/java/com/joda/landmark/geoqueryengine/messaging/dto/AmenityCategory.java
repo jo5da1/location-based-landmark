@@ -1,6 +1,6 @@
 package com.joda.landmark.geoqueryengine.messaging.dto;
 
-public enum Category {
+public enum AmenityCategory {
   FOOD_AND_DRINK,
   ACCOMMODATION,
   HEALTH_AND_EMERGENCY,
