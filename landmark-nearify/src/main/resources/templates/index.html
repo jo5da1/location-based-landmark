@@ -51,7 +51,11 @@
             const landmark = JSON.parse(message.body);
             L.marker([landmark.latitude, landmark.longitude])
                 .addTo(map)
-                .bindPopup(landmark.name);
+                .bindPopup(`
+                    <b>${landmark.name}</b><br>
+                    Category: ${landmark.category}<br>
+                    SubCategory: ${landmark.subCategory}
+                `);
         });
     });
 

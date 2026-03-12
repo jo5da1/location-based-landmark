@@ -1,3 +1,4 @@
 package com.joda.landmark.nearify.rest.dto;
 
-public record Landmark(String name, Category category, Coordinates coordinates, double distance) {}
+public record Landmark(
+    String name, String category, String subCategory, Coordinates coordinates, double distance) {}

@@ -68,12 +68,26 @@ public class LandmarkPublisher {
   private LandmarkWS restToWs(Landmark restLandmark) {
     return new LandmarkWS(
         restLandmark.name(),
+        restLandmark.category(),
+        restLandmark.subCategory(),
         restLandmark.coordinates().latitude(),
         restLandmark.coordinates().longitude());
   }
 
   public void sendSampleLandmarks() {
-    publishLandmark(new LandmarkWS("Lilla Istanbul", 57.72495531608793, 11.949546931031295));
-    publishLandmark(new LandmarkWS("Shahana Grill & Kök", 57.72307433992, 11.929296026880738));
+    publishLandmark(
+        new LandmarkWS(
+            "Lilla Istanbul",
+            "FOOD_AND_DRINKS",
+            "RESTURANT",
+            57.72495531608793,
+            11.949546931031295));
+    publishLandmark(
+        new LandmarkWS(
+            "Shahana Grill & Kök",
+            "FOOD_AND_DRINKS",
+            "RESTURANT",
+            57.72307433992,
+            11.929296026880738));
   }
 }
