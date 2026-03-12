@@ -1,4 +1,6 @@
-CREATE TABLE planet_osm_point (
+DROP TABLE IF EXISTS planet_osm_point;
+
+CREATE TABLE IF NOT EXISTS planet_osm_point (
     osm_id BIGINT PRIMARY KEY,
     amenity TEXT,
     brand TEXT,

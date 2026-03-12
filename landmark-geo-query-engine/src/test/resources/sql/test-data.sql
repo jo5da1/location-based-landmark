@@ -2,7 +2,7 @@ INSERT INTO planet_osm_point (osm_id, amenity, brand, name, way) VALUES
 (2931104210, 'cafe', 'Local Vendor', 'Café Vi',
  ST_Transform(ST_SetSRID(ST_Point(11.952140999999997,57.72202500063145),4326),3857)),
 
-(2165234233, 'cafe', NULL, 'Cofee Corner',
+(2165234233, 'cafe', 'CCD', 'Cofee Corner',
  ST_Transform(ST_SetSRID(ST_Point(11.952931599999998,57.72264960063176),4326),3857)),
 
 (3647167404, 'cafe', 'Local Vendor', 'Kafé Alkemisten',

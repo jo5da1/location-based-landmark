@@ -44,5 +44,6 @@ public abstract class AbstractIntegrationTest {
 
   static {
     postgres.start();
+    rabbitmq.start();
   }
 }
