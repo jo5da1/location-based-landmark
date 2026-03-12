@@ -19,7 +19,7 @@ public class LandmarkResponseListener {
   private final String landmarkResponseQueue;
 
   public LandmarkResponseListener(
-      @Value("${landmark.response.queue}") String landmarkResponseQueue) {
+      @Value("${message.queue.landmark-response}") String landmarkResponseQueue) {
     this.landmarkResponseQueue = landmarkResponseQueue;
   }
 
@@ -27,7 +27,7 @@ public class LandmarkResponseListener {
     futureMap.put(requestId, future);
   }
 
-  @RabbitListener(queues = "${landmark.response.queue}")
+  @RabbitListener(queues = "${message.queue.landmark-response}")
   public void listenLandmarkResponseQueue(LandmarksResponse response) {
     log.info("received landmark response on queue [{}]: {}", landmarkResponseQueue, response);
     if (response == null || response.getRequestId() == null) {

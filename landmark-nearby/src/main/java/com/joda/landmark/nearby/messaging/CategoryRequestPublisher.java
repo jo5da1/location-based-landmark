@@ -14,7 +14,7 @@ public class CategoryRequestPublisher {
 
   public CategoryRequestPublisher(
       RabbitTemplate rabbitTemplate,
-      @Value("${landmark.message.category.request}") String categoryRequestQueue) {
+      @Value("${message.queue.category-request}") String categoryRequestQueue) {
     this.rabbitTemplate = rabbitTemplate;
     this.categoryRequestQueue = categoryRequestQueue;
   }

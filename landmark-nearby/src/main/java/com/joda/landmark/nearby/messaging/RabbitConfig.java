@@ -12,22 +12,22 @@ public class RabbitConfig {
 
   @Bean
   public Queue landmarkRequestQueue() {
-    return new Queue("landmark.request.queue", true);
+    return new Queue("message.queue.landmark-request", true);
   }
 
   @Bean
   public Queue landmarkResponseQueue() {
-    return new Queue("landmark.response.queue", true);
+    return new Queue("message.queue.landmark-response", true);
   }
 
   @Bean
   public Queue categoryRequestQueue() {
-    return new Queue("landmark.message.category.request", true);
+    return new Queue("message.queue.category-request", true);
   }
 
   @Bean
   public Queue categoryResponseQueue() {
-    return new Queue("landmark.message.category.response", true);
+    return new Queue("message.queue.category-response", true);
   }
 
   @Bean

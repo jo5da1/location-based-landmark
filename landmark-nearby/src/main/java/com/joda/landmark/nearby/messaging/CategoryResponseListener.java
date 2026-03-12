@@ -18,7 +18,7 @@ public class CategoryResponseListener {
       new ConcurrentHashMap<>();
 
   public CategoryResponseListener(
-      @Value("${landmark.message.category.response}") String categoryResponseQueue) {
+      @Value("${message.queue.category-response}") String categoryResponseQueue) {
 
     this.categoryResponseQueue = categoryResponseQueue;
   }
@@ -27,7 +27,7 @@ public class CategoryResponseListener {
     futureMap.put(requestId, future);
   }
 
-  @RabbitListener(queues = "${landmark.message.category.response}")
+  @RabbitListener(queues = "${message.queue.category-response}")
   public void listenCategoryResponseQueue(LandmarkCategoryResponse response) {
     log.info("received category response on queue [{}]: {}", categoryResponseQueue, response);
     if (response == null || response.getRequestId() == null) {
