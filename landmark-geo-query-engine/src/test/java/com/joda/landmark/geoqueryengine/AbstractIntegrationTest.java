@@ -41,4 +41,8 @@ public abstract class AbstractIntegrationTest {
     registry.add("spring.rabbitmq.username", rabbitmq::getAdminUsername);
     registry.add("spring.rabbitmq.password", rabbitmq::getAdminPassword);
   }
+
+  static {
+    postgres.start();
+  }
 }
