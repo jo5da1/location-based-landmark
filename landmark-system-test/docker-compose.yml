@@ -1,0 +1,9 @@
+version: "3.9"
+
+services:
+  landmark-system-test:
+    image: landmark-system-test
+    container_name: landmark-system-test
+    environment:
+      LANDMARK_NEARBY_API_BASE_URL: 'http://host.docker.internal:8086'
+    command: [ "pytest", "-v" ]

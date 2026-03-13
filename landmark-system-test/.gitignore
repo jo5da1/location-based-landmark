@@ -1,0 +1,9 @@
+.idea
+.vscode/
+todo/
+
+.mvn/
+venv
+.pytest_cache
+__pycache__
+requirements_running.txt
