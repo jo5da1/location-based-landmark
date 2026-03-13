@@ -10,6 +10,14 @@ management:
 
 spring:
   application.name: landmark-geo-query-engine
+  # -- ----
+  # This tells Spring to create beans only when first used,
+  # including repositories and datasource.
+  # Enable lazy bean initialization
+  # This delays repository creation until used.
+  main:
+    lazy-initialization: true
+  # -- ---- ------------------
   jpa:
     #open-in-view: false
     hibernate:
@@ -19,23 +27,40 @@ spring:
       hibernate:
         format_sql: false
         jdbc.lob.non_contextual_creation: true
+        # -- ----
+        # Prevent Hibernate from querying metadata
+        # Hibernate tries to connect during startup to detect DB features.
+        # Disable Hibernate metadata connection
+        # Hibernate tries to connect to detect DB features.
+        # Now Hibernate won't connect during startup.
+        boot:
+          allow_jdbc_metadata_access: false
+        # -- ---- ------------------
+    # -- ----
+    # Hibernate will not connect to the DB at startup,
+    # which means it cannot detect the database type automatically.
+    # therefore you must explicitly configure the dialect.
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    # -- ---- ------------------
+
   datasource:
     platform: postgres
     driver-class-name: org.postgresql.Driver
-    #url: jdbc:postgresql://localhost:5432/landmark_db
-    #username: landmark_user
-    #password: landmark_password
     url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
     username: ${DB_USER_NAME}
     password: ${DB_USER_PASSWORD}
     hikari:
       maximum-pool-size: 20
       minimum-idle: 5
+      # -- ----
+      # Hikari tries to connect immediately.
+      # Connection will happen later.
+      # HikariCP normally fails startup if DB is unavailable.
+      # -1 = start even if DB is down.
+      initializationFailTimeout: -1
+      connectionTimeout: 30000
+      # -- ---- ------------------
   rabbitmq:
-    #host: localhost
-    #port: 5672
-    #username: guest
-    #password: guest
     host: ${RABBIT_HOST}
     port: ${RABBIT_PORT}
     username: ${RABBIT_USER_NAME}

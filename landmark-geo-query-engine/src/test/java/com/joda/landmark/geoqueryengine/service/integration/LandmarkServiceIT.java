@@ -15,6 +15,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import tools.jackson.databind.ObjectMapper;
 
@@ -22,6 +23,7 @@ import tools.jackson.databind.ObjectMapper;
 @Sql(
     scripts = {"/sql/extension.sql", "/sql/schema.sql", "/sql/test-data.sql"},
     executionPhase = Sql.ExecutionPhase.BEFORE_TEST_CLASS)
+@ActiveProfiles("test")
 class LandmarkServiceIT extends AbstractIntegrationTest {
 
   @Value("${message.queue.landmark-response}")
