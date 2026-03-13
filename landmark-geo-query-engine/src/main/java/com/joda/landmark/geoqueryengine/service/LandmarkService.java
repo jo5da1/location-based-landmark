@@ -116,7 +116,7 @@ public class LandmarkService {
   }
 
   private Landmark mapPointToLandmark(PlanetOsmPoint point) {
-    log.info("Converting Point to Landmark: {}", point);
+    log.debug("Converting Point to Landmark: {}", point);
     return new Landmark(
         point.getName(),
         mapStringToAmenityCategory(point.getAmenity()),

@@ -5,9 +5,11 @@ import com.joda.landmark.geoqueryengine.messaging.dto.LandmarksRequest;
 import com.joda.landmark.geoqueryengine.messaging.processor.LandmarkRequestProcessor;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 @Component
+@Lazy(false) // forces eager init even if global lazy-init is true
 public class LandmarkRequestListener extends AbstractMessageListener<LandmarksRequest> {
 
   public LandmarkRequestListener(

@@ -4,9 +4,11 @@ import com.joda.landmark.geoqueryengine.messaging.AbstractMessageListener;
 import com.joda.landmark.geoqueryengine.messaging.processor.CategoryRequestProcessor;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 @Component
+@Lazy(false) // forces eager init even if global lazy-init is true
 public class CategoryRequestListener extends AbstractMessageListener<String> {
 
   public CategoryRequestListener(
