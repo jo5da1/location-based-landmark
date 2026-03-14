@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+  localstack:
+    image: localstack/localstack:4.14.0
+    container_name: landmark-system-test-lambda
+    ports:
+      - "4566:4566"   # Main LocalStack endpoint
+      - "8080:8080"   # LocalStack Web UI
+    environment:
+      - LANDMARK_NEARBY_API_BASE_URL="http://host.docker.internal:8086"
+      - LOCALSTACK_TMPDIR=/tmp/landmark-system-test-lambda
+      - SERVICES=lambda,apigateway
+      - DEBUG=1
+      - AWS_DEFAULT_REGION=us-east-1
+      - AWS_ACCESS_KEY_ID=landmark-system-test-lambda
+      - AWS_SECRET_ACCESS_KEY=landmark-system-test-lambda
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "./docker/init.sh:/etc/localstack/init/ready.d/init.sh"
+      - "./tests:/tests"
+      - "./localstack_data/landmark-system-test-lambda:/tmp/landmark-system-test-lambda"
+    networks:
+      - landmark-net
+
+networks:
+  landmark-net:
+    driver: bridge
