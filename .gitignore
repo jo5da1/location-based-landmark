@@ -11,3 +11,5 @@ docker/postgres/log
 docker/map_osm
 
 *.osm
+
+local*/

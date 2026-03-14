@@ -35,6 +35,8 @@ pytest tests/test_nearby_api.py
 
 which python
 which pytest
+
+python -m src.main 
 ```
 7. Freeze Requirements
 ```
