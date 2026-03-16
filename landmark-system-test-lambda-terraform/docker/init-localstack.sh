@@ -1,0 +1,14 @@
+#!/bin/bash
+
+echo "--------------------------------------------------------------"
+echo "------ Initializing LocalStack with Terraform           ------"
+echo "--------------------------------------------------------------"
+
+cd /app
+
+bash scripts/package_lambda.sh
+
+cd terraform
+
+terraform init
+terraform apply -auto-approve

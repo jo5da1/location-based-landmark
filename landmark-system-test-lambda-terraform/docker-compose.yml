@@ -1,0 +1,25 @@
+version: "3.9"
+
+services:
+
+  landmark-localstack-terraform:
+    #build: .
+    image: landmark-localstack-terraform
+    container_name: landmark-system-test-localstack-terraform
+
+    ports:
+      - "4566:4566"
+      - "8080:8080"
+
+    environment:
+      - SERVICES=lambda,apigateway,iam
+      - DEBUG=0
+      - LS_LOG=debug
+      - AWS_DEFAULT_REGION=us-east-1
+      - AWS_ACCESS_KEY_ID=landmark-system-test
+      - AWS_SECRET_ACCESS_KEY=landmark-system-test
+
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./docker/init-localstack.sh:/etc/localstack/init/ready.d/init-localstack.sh
+      - ./:/app
