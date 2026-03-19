@@ -1,0 +1,16 @@
+.idea
+.vscode/
+todo/
+
+.mvn/
+venv
+.pytest_cache
+__pycache__
+requirements_running.txt
+tests_run
+build
+.terraform
+.terraform*
+
+*.tfstate
+*.tfstate.backup

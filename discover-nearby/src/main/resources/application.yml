@@ -1,0 +1,7 @@
+server.port: 8091
+
+spring.application.name: Discover Nearby
+
+dynamodb.endpoint: "http://localhost:4566"
+aws.access-key-id: "test"
+aws.secret-access-key: "test"
