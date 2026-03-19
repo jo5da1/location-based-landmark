@@ -5,10 +5,8 @@ read -p "Enter city name: " city
 echo "You entered: $city"
 
 RESTAPI_ID=$(awslocal apigateway get-rest-apis | jq -r '.items[] | select(.name=="discover_nearby-gateway-rest-api") | .id')
-echo "REST API ID: " $RESTAPI_ID
 
 STAGE_NAME=$(awslocal apigateway get-stages --rest-api-id $RESTAPI_ID | jq -r '.item[0].stageName')
-echo "STAGE NAME : "$STAGE_NAME
 
 CITY=$city
 
