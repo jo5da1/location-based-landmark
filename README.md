@@ -6,7 +6,7 @@ The Location-Based Landmark System is a microservices-based platform designed to
 </p>
 
 ### Architecture Diagram
-![](docs/location-based-landmark.jpg)
+![](docs/location-based-landmark-2.jpg)
 
 ### Technologies
 - Java / Spring Boot
