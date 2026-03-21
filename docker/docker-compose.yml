@@ -43,6 +43,8 @@ services:
       #PGDATA: /data/postgres
     networks:
       - landmark-net
+      - landmark-shared-net
+
 
   # -------------------------
   # POSTGRES EXPORTER
@@ -63,76 +65,76 @@ services:
     networks:
       - landmark-net
 
-  osm-import-job:
-    build: importer
-    container_name: landmark_osm_importer
-    depends_on:
-      - postgres_pgrouting
-    volumes:
-      - ./postgres/data:/data
-    environment:
-      PGPASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-    networks:
-      - landmark-net
-    command:
-      - bash
-      - -c
-      - |
-        set -e
-
-        echo "Waiting for PostgreSQL..."
-        until pg_isready -h postgres_pgrouting -p 5432 -U landmark_user; do
-          sleep 2
-        done
-
-        echo "PostgreSQL is ready. Starting import..."
-
-        echo "********************************"
-        echo "Starting osm2pgrouting import..."
-        echo "********************************"
-
-        osm2pgrouting -f /data/map.osm \
-          -d landmark_db \
-          -U landmark_user \
-          -W "$POSTGRES_PASSWORD" \
-          -h postgres_pgrouting \
-          --clean
-
-        EXIT_OSM_2_PGROUTING=$$?
-
-        if [ $$EXIT_OSM_2_PGROUTING -eq 0 ]; then
-          echo "Exit code $$EXIT_OSM_2_PGROUTING"
-          echo "Import of osm2pgrouting finished successfully!"
-        else
-          echo "Import of osm2pgrouting failed with exit code $$EXIT_OSM_2_PGROUTING"
-          exit 1
-        fi
-
-        echo "********************************"
-        echo "Starting osm2pgsql import..."
-        echo "********************************"
-
-        osm2pgsql \
-          -H postgres_pgrouting \
-          -d landmark_db \
-          -U landmark_user \
-          --create \
-          --slim \
-          --hstore \
-          /data/map.osm
-
-        EXIT_OSM_2_PGSSQL=$$?
-
-        if [ $$EXIT_OSM_2_PGSSQL -eq 0 ]; then
-          echo "$$EXIT_OSM_2_PGSSQL"
-          echo "Import of osm2pgsql finished successfully!"
-        else
-          echo "Import of osm2pgsql failed with exit code $$EXIT_OSM_2_PGSSQL"
-          exit 1
-        fi
-
-        echo "All Import finished successfully!"
+#  osm-import-job:
+#    build: importer
+#    container_name: landmark_osm_importer
+#    depends_on:
+#      - postgres_pgrouting
+#    volumes:
+#      - ./postgres/data:/data
+#    environment:
+#      PGPASSWORD: ${POSTGRES_PASSWORD}
+#      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+#    networks:
+#      - landmark-net
+#    command:
+#      - bash
+#      - -c
+#      - |
+#        set -e
+#
+#        echo "Waiting for PostgreSQL..."
+#        until pg_isready -h postgres_pgrouting -p 5432 -U landmark_user; do
+#          sleep 2
+#        done
+#
+#        echo "PostgreSQL is ready. Starting import..."
+#
+#        echo "********************************"
+#        echo "Starting osm2pgrouting import..."
+#        echo "********************************"
+#
+#        osm2pgrouting -f /data/map.osm \
+#          -d landmark_db \
+#          -U landmark_user \
+#          -W "$POSTGRES_PASSWORD" \
+#          -h postgres_pgrouting \
+#          --clean
+#
+#        EXIT_OSM_2_PGROUTING=$$?
+#
+#        if [ $$EXIT_OSM_2_PGROUTING -eq 0 ]; then
+#          echo "Exit code $$EXIT_OSM_2_PGROUTING"
+#          echo "Import of osm2pgrouting finished successfully!"
+#        else
+#          echo "Import of osm2pgrouting failed with exit code $$EXIT_OSM_2_PGROUTING"
+#          exit 1
+#        fi
+#
+#        echo "********************************"
+#        echo "Starting osm2pgsql import..."
+#        echo "********************************"
+#
+#        osm2pgsql \
+#          -H postgres_pgrouting \
+#          -d landmark_db \
+#          -U landmark_user \
+#          --create \
+#          --slim \
+#          --hstore \
+#          /data/map.osm
+#
+#        EXIT_OSM_2_PGSSQL=$$?
+#
+#        if [ $$EXIT_OSM_2_PGSSQL -eq 0 ]; then
+#          echo "$$EXIT_OSM_2_PGSSQL"
+#          echo "Import of osm2pgsql finished successfully!"
+#        else
+#          echo "Import of osm2pgsql failed with exit code $$EXIT_OSM_2_PGSSQL"
+#          exit 1
+#        fi
+#
+#        echo "All Import finished successfully!"
 
   pgadmin:
     image: dpage/pgadmin4
@@ -239,3 +241,5 @@ volumes:
 networks:
   landmark-net:
     driver: bridge
+  landmark-shared-net:
+    external: true
