@@ -60,6 +60,11 @@ spring:
       initializationFailTimeout: -1
       connectionTimeout: 30000
       # -- ---- ------------------
+  # Liquibase
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.xml
+    enabled: false
+  # Rabbit MQ
   rabbitmq:
     host: ${RABBIT_HOST}
     port: ${RABBIT_PORT}

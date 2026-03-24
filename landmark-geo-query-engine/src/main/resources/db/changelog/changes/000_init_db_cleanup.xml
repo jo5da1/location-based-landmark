@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+  <changeSet id="000_init_db_cleanup" author="jod">
+    <sql>
+      drop table if exists landmark_osm_import_log;
+      drop table if exists landmark_point_of_interest_a;
+      drop table if exists landmark_point_of_interest_b;
+      drop table if exists landmark_point_of_interest_log;
+
+      drop index if exists idx_landmark_point_a;
+      drop index if exists idx_landmark_point_b;
+
+
+      delete from databasechangelog;
+      delete from databasechangeloglock;
+    </sql>
+  </changeSet>
+</databaseChangeLog>
+

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="001_create_dual_table_poi" author="jod">
+
+        <!-- Table A -->
+        <createTable tableName="landmark_point_of_interest_a">
+            <column name="osm_id" type="bigint">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="amenity" type="varchar(50)"/>
+            <column name="brand" type="varchar(50)"/>
+            <column name="name" type="varchar(100)"/>
+            <column name="point" type="geometry(Point,3857)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <!-- Table B -->
+        <createTable tableName="landmark_point_of_interest_b">
+            <column name="osm_id" type="bigint">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="amenity" type="varchar(50)"/>
+            <column name="brand" type="varchar(50)"/>
+            <column name="name" type="varchar(100)"/>
+            <column name="point" type="geometry(Point,3857)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <!-- Table Log -->
+        <createTable tableName="landmark_point_of_interest_log">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="inuse" type="varchar(1)"/>
+            <column name="start_time" type="timestamp with time zone">
+                <constraints nullable="false" />
+            </column>
+            <column name="end_time" type="timestamp with time zone"/>
+        </createTable>
+
+        <!-- add spatial index for faster geo queries -->
+        <sql>
+            CREATE INDEX IF NOT EXISTS
+                idx_landmark_point_a
+            ON
+                landmark_point_of_interest_a
+            USING
+                GIST (point);
+        </sql>
+
+        <sql>
+            CREATE INDEX IF NOT EXISTS
+                idx_landmark_point_b
+            ON
+                landmark_point_of_interest_b
+            USING
+                GIST (point);
+        </sql>
+
+
+    </changeSet>
+
+</databaseChangeLog>
