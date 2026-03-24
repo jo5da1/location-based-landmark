@@ -5,8 +5,6 @@ import com.joda.landmark.geoqueryengine.messaging.dto.PointOfInterest;
 import com.joda.landmark.geoqueryengine.persistence.entity.PointOfInterestLog;
 import com.joda.landmark.geoqueryengine.service.PointOfInterestService;
 import com.joda.landmark.geoqueryengine.service.PointOfInterestUpdateService;
-import java.util.List;
-import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +14,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+import java.util.UUID;
+
 @RestController
-@RequestMapping("/api/landmark/geoquery/poi")
+@RequestMapping("/api/geoquery/landmark/poi")
 @Slf4j
 @RequiredArgsConstructor
 public class PoiController {
@@ -28,7 +29,7 @@ public class PoiController {
   @GetMapping(value = "/")
   public ResponseEntity<ApiResponse> tableInUse() {
 
-    log.info("Endpoint: [/api/landmark/geoquery/poi/]");
+    log.info("Endpoint: [/api/geoquery/landmark/poi/]");
     PointOfInterestLog pointOfInterestLog = pointOfInterestService.getPointOfInterestInUse();
 
     return ResponseEntity.ok(
@@ -38,7 +39,7 @@ public class PoiController {
   @GetMapping(value = "/log")
   public ResponseEntity<ApiResponse> getPointOfInterestLog() {
 
-    log.info("Endpoint: [/api/landmark/geoquery/poi/log]");
+    log.info("Endpoint: [/api/geoquery/landmark/poi/log]");
     List<PointOfInterestLog> listPoiLog = pointOfInterestService.getPointOfInterestLog();
 
     return ResponseEntity.ok(new ApiResponse("PointOfInterest Log", listPoiLog));
@@ -48,7 +49,7 @@ public class PoiController {
   public ResponseEntity<ApiResponse> swapPointOfInterest(
       @RequestBody(required = true) String request) {
 
-    log.info("Endpoint: [/api/landmark/geoquery/poi/swap]: {}", request);
+    log.info("Endpoint: [/api/geoquery/landmark/poi/swap]: {}", request);
     pointOfInterestUpdateService.swapActiveTable(request);
     PointOfInterestLog pointOfInterestLog = pointOfInterestService.getPointOfInterestInUse();
 
@@ -60,7 +61,7 @@ public class PoiController {
   public ResponseEntity<ApiResponse> getPointOfInterest(
       @RequestBody(required = true) LandmarksRequest request) {
 
-    log.info("Endpoint: [/api/landmark/geoquery/poi/get] : {}", request);
+    log.info("Endpoint: [/api/geoquery/landmark/poi/get] : {}", request);
     List<PointOfInterest> listPointOfInterest =
         pointOfInterestService.findPOIWithinDistance(
             request.coordinates().longitude(), request.coordinates().latitude(), request.radius());
@@ -72,7 +73,7 @@ public class PoiController {
   @PostMapping(value = "/initiate-import")
   public ResponseEntity<ApiResponse> initiateImport() {
 
-    log.info("Endpoint: [/api/landmark/geoquery/poi/initiate-import]");
+    log.info("Endpoint: [/api/geoquery/landmark/poi/initiate-import]");
     var osmImportLog = pointOfInterestUpdateService.initiateImport();
 
     return ResponseEntity.ok(new ApiResponse("Initiate Import: ", osmImportLog));
@@ -81,7 +82,7 @@ public class PoiController {
   @PostMapping(value = "/trigger-import")
   public ResponseEntity<ApiResponse> triggerImport(@RequestBody(required = true) String importId) {
 
-    log.info("Endpoint: [/api/landmark/geoquery/poi/trigger-import]: {}", importId);
+    log.info("Endpoint: [/api/geoquery/landmark/poi/trigger-import]: {}", importId);
     pointOfInterestUpdateService.triggerImport(UUID.fromString(importId));
 
     return ResponseEntity.ok(new ApiResponse("Trigger Import", "Done!"));
