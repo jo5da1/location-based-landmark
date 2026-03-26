@@ -1,0 +1,25 @@
+version: "3.9"
+
+services:
+
+  landmark-osm-download:
+      image: landmark-osm-download
+      container_name: landmark_osm_download
+      volumes:
+        - ./postgres/data:/data
+        - ./postgres/data/pbf:/data/pbf
+        - ./postgres/data/osm:/data/osm
+      environment:
+        OSM_URL: "https://download.geofabrik.de/europe/sweden-latest.osm.pbf"
+        OSM_PBF: "sweden-latest.osm.pbf"
+        #EXTRACT_BBOX=11.80,57.60,12.10,57.80
+        EXTRACT_BBOX: "11.80,57.60,11.85,57.65"
+        EXTRACT_PBF: "gothenburg.osm.pbf"
+        EXTRACT_OSM: "gothenburg.osm"
+        RELEASE_OSM: "release/map.osm"
+      networks:
+        - landmark-shared-net
+
+networks:
+  landmark-shared-net:
+    external: true

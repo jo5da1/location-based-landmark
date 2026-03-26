@@ -1,0 +1,24 @@
+version: "3.9"
+
+services:
+
+  landmark-osm-import:
+      image: landmark-osm-import
+      container_name: landmark_osm_import
+      volumes:
+        - ./postgres/data:/data
+        - ./postgres/data/pbf:/data/pbf
+        - ./postgres/data/osm:/data/osm
+      environment:
+        POSTGRES_HOST: ${POSTGRES_HOST}
+        POSTGRES_DB: ${POSTGRES_DB}
+        POSTGRES_USER: ${POSTGRES_USER}
+        PGPASSWORD: ${POSTGRES_PASSWORD}
+        POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+        RELEASE_OSM: "release/map.osm"
+      networks:
+        - landmark-shared-net
+
+networks:
+  landmark-shared-net:
+    external: true
