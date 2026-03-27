@@ -6,9 +6,8 @@ services:
       image: landmark-osm-import-local
       container_name: landmark-osm-import-local
       volumes:
-        - ./postgres/data:/data
-        - ./postgres/data/pbf:/data/pbf
-        - ./postgres/data/osm:/data/osm
+        - ./../_postgres/data:/data
+        - ./../_postgres/data/release:/data/release
       environment:
         POSTGRES_HOST: ${POSTGRES_HOST}
         POSTGRES_DB: ${POSTGRES_DB}
