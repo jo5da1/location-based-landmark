@@ -7,7 +7,8 @@ services:
       container_name: landmark-osm-fetch-local
       volumes:
         - ./../_postgres/data:/data
-        - ./../_postgres/data/pbf:/data/pbf
+        - ./../_postgres/data/pbf_full:/data/pbf_full
+        - ./../_postgres/data/pbf_extract:/data/pbf_extract
         - ./../_postgres/data/osm:/data/osm
       environment:
         OSM_URL: "https://download.geofabrik.de/europe/sweden-latest.osm.pbf"
@@ -17,6 +18,7 @@ services:
         EXTRACT_PBF: "gothenburg.osm.pbf"
         EXTRACT_OSM: "gothenburg.osm"
         RELEASE_OSM: "release/map.osm"
+        RELEASE_PBF: "release/map.osm.pbf"
       networks:
         - landmark-shared-net
 

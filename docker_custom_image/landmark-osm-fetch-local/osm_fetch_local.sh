@@ -8,6 +8,7 @@ EXTRACT_BBOX="${EXTRACT_BBOX}"
 EXTRACT_PBF="${EXTRACT_PBF}"
 EXTRACT_OSM="${EXTRACT_OSM}"
 RELEASE_OSM="${RELEASE_OSM}"
+RELEASE_PBF="${RELEASE_PBF}"
 
 # Step Echo:
 echo " "
@@ -18,6 +19,7 @@ echo "EXTRACT_BBOX : " $EXTRACT_BBOX
 echo "EXTRACT_PBF  : " $EXTRACT_PBF
 echo "EXTRACT_OSM  : " $EXTRACT_OSM
 echo "RELEASE_OSM  : " $RELEASE_OSM
+echo "RELEASE_PBF  : " $RELEASE_PBF
 
 
 # Step 1: Download OSM
@@ -45,9 +47,11 @@ osmium cat $EXTRACT_PBF -o $EXTRACT_OSM
 echo " "
 echo "**** Step 4: ****"
 echo "Organize files. Moving pbf, osm file to respective dir.."
-mkdir -p pbf osm
-mv *.pbf pbf/
-mv *.osm osm/
+mkdir -p pbf_full pbf_extract osm
+
+mv "$OSM_PBF" pbf_full/
+mv "$EXTRACT_PBF" pbf_extract/
+mv "$EXTRACT_OSM" osm/
 
 # Step 5: Creating Release Directory..
 echo " "
@@ -64,6 +68,7 @@ echo " "
 echo "**** Step 6: Merge ****"
 echo "Merging osm file to a final map.osm.."
 osmium merge osm/*.osm -o $RELEASE_OSM
+osmium merge pbf_extract/*.pbf -o $RELEASE_PBF
 
 echo " "
 echo "Download finished successfully!"
