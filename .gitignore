@@ -14,3 +14,13 @@ docker/map_osm
 *.osm
 
 local*/
+
+**/.terraform
+**/.terraform*
+
+.terraform/
+.terraform*
+
+*.tfstate
+*.tfstate.backup
+

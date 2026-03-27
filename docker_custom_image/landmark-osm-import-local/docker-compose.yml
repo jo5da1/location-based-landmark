@@ -2,9 +2,9 @@ version: "3.9"
 
 services:
 
-  landmark-osm-import:
-      image: landmark-osm-import
-      container_name: landmark_osm_import
+  landmark-osm-import-local:
+      image: landmark-osm-import-local
+      container_name: landmark-osm-import-local
       volumes:
         - ./postgres/data:/data
         - ./postgres/data/pbf:/data/pbf

@@ -5,4 +5,5 @@ RUN apt-get update \
     && wget https://releases.hashicorp.com/terraform/1.14.7/terraform_1.14.7_linux_amd64.zip \
     && unzip terraform_1.14.7_linux_amd64.zip \
     && mv terraform /usr/local/bin/terraform \
-    && rm terraform_1.14.7_linux_amd64.zip
+    && rm terraform_1.14.7_linux_amd64.zip \
+    && rm -rf /var/lib/apt/lists/*
