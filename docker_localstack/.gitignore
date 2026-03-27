@@ -10,8 +10,6 @@ docker/postgres/db
 docker/postgres/log
 docker/map_osm
 **/postgres/data
-**/_postgres/data
-
 
 *.osm
 
@@ -25,4 +23,3 @@ local*/
 
 *.tfstate
 *.tfstate.backup
-

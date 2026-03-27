@@ -6,9 +6,9 @@ services:
       image: landmark-osm-fetch-local
       container_name: landmark-osm-fetch-local
       volumes:
-        - ./postgres/data:/data
-        - ./postgres/data/pbf:/data/pbf
-        - ./postgres/data/osm:/data/osm
+        - ./../_postgres/data:/data
+        - ./../_postgres/data/pbf:/data/pbf
+        - ./../_postgres/data/osm:/data/osm
       environment:
         OSM_URL: "https://download.geofabrik.de/europe/sweden-latest.osm.pbf"
         OSM_PBF: "sweden-latest.osm.pbf"
