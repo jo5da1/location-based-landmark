@@ -1,0 +1,1 @@
+awslocal sqs list-queues

@@ -5,7 +5,7 @@ resource "aws_lambda_function" "discover_nearby" {
 
   function_name = "discover_nearby_function"
 
-  filename      = ".././target/discover-nearby-0.0.1-SNAPSHOT.jar"
+  filename      = ".././target/discover-nearby/discover-nearby-0.0.1-SNAPSHOT.jar"
   //filename      = data.archive_file.discover_nearby.output_path
   handler       = "com.joda.discover.nearby.lambda.StreamLambdaHandler"
   code_sha256   = data.archive_file.discover_nearby.output_base64sha256
@@ -33,8 +33,8 @@ resource "aws_lambda_function" "discover_nearby" {
 # Package the Lambda function code
 data "archive_file" "discover_nearby" {
   type        = "zip"
-  source_file = ".././target/discover-nearby-0.0.1-SNAPSHOT.jar"
-  output_path = ".././target/function.zip"
+  source_file = ".././target/discover-nearby/discover-nearby-0.0.1-SNAPSHOT.jar"
+  output_path = ".././target/discover-nearby/function.zip"
 
 #  source_file = "${path.module}/target/discover-nearby-0.0.1-SNAPSHOT.jar"
 #  output_path = "${path.module}/target/function.zip"

@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+
+  landmark-osm-import-worker:
+      image: landmark-osm-import-worker
+      container_name: landmark-osm-import-worker
+      volumes:
+        - ./../_postgres/data:/data
+        - ./../_postgres/data/fetched_from_s3:/data/fetched_from_s3
+      environment:
+        POSTGRES_HOST: ${POSTGRES_HOST}
+        POSTGRES_DB: ${POSTGRES_DB}
+        POSTGRES_USER: ${POSTGRES_USER}
+        PGPASSWORD: ${POSTGRES_PASSWORD}
+        POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+        AWS_ACCESS_KEY_ID: test
+        AWS_SECRET_ACCESS_KEY: test
+        AWS_DEFAULT_REGION: us-east-1
+
+        S3_ENDPOINT: "http://discover-localstack-terraform:4566"
+        S3_BUCKET: "s3-osm-bucket"
+        OSM_FILE: "map.osm"
+        OSM_FILE_1: "s3://s3-osm-bucket/map.osm"
+
+        SQS_ENDPOINT: "http://discover-localstack-terraform:4566"
+        QUEUE_URL: "http://discover-localstack-terraform:4566/000000000000/osm-import-queue"
+      networks:
+        - landmark-shared-net
+        - landmark-localstack-net
+
+networks:
+  landmark-shared-net:
+    external: true
+  landmark-localstack-net:
+    external: true

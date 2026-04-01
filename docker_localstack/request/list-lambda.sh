@@ -1,0 +1,1 @@
+awslocal lambda list-functions

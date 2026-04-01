@@ -81,4 +81,24 @@ awslocal s3 ls s3://s3-osm-bucket
 
 awslocal s3 cp map.osm s3://s3-osm-bucket/
 awslocal s3 cp postgres/data/release/map.osm s3://s3-osm-bucket/
+awslocal s3 cp _postgres/data/release/map.osm s3://s3-osm-bucket/
+
 ```
+
+# SQS
+```
+awslocal sqs list-queues
+```
+
+````
+awslocal sqs send-message \
+  --queue-url http://sqs.us-east-1.localhost.localstack.cloud:4566/000000000000/osm-import-queue \
+  --message-body '{"bucket":"s3-osm-bucket","key":"map.osm"}'
+````
+
+#  
+````
+aws --endpoint-url=http://localhost:4566 sqs create-queue --queue-name osm-import-queue
+awslocal sqs create-queue --queue-name osm-import-queue
+````
+
