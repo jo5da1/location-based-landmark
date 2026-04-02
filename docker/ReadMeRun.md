@@ -4,6 +4,11 @@ docker volume ls
 docker network ls
 ```
 ```
+docker builder prune
+docker system prune
+docker volume prune
+```
+```
 docker/
 │
 ├── command-docker-build.sh
