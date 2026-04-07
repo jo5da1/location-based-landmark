@@ -10,8 +10,7 @@ services:
     ports:
       - "3001:3000"
     environment:
-      LANDMARK_NEARBY_API_URL: 'http://landmark-nearby:8086/api/landmark/nearby'
-      REACT_APP_LANDMARK_NEARBY_API_URL: 'http://landmark-nearby:8086/api/landmark'
+      REACT_APP_LANDMARK_NEARBY_API_URL: 'http://localhost:8086/api/landmark'
       REACT_APP_ENDPOINT_NEARBY: '/nearby'
       REACT_APP_ENDPOINT_CATEGORY: '/category'
     networks:
@@ -22,3 +21,11 @@ networks:
     driver: bridge
   landmark-shared-net:
     external: true
+
+# ####
+# apk add --no-cache curl
+# docker network connect landmark-shared-net landmark-react-nearify
+# docker network connect landmark-shared-net landmark-nearby
+# curl http://landmark-nearby:8086/api/landmark/category
+# ping landmark-nearby
+# curl http://host.docker.internal:8086/api/landmark/category
