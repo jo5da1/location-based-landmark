@@ -11,3 +11,6 @@ sh ./../landmark-geo-query-engine/cmd-docker-build.sh
 sh ./../landmark-nearby/cmd-docker-build.sh
 sh ./../landmark-nearify/cmd-docker-build.sh
 
+# landmark-react
+sh ./../landmark-react/landmark-react-nearify/cmd-docker-build.sh
+

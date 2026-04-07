@@ -43,13 +43,16 @@ docker rmi \
   landmark-geo-query-engine \
   landmark-nearby \
   landmark-nearify \
+  landmark-react-nearify \
   --force
 
 docker network rm \
   landmark-net \
   docker_landmark-net \
   landmark-shared-net \
-  landmark-localstack-net
+  landmark-localstack-net \
+  landmark-react-nearify_landmark-net \
+  landmark-react_landmark-net \
 
 docker volume rm \
   docker_grafana_data \

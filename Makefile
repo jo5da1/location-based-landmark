@@ -179,7 +179,8 @@ run-landmark-osm-importer:
 build-landmark_app_image: \
 		build-landmark-geo-query-engine \
 		build-landmark-nearby \
-		build-landmark-nearify
+		build-landmark-nearify \
+		build-landmark-react-nearify
 	@echo " "
 	@echo "All Landmark App Image Done!!"
 
@@ -193,11 +194,15 @@ build-landmark-nearby:
 build-landmark-nearify:
 	sh landmark-nearify/cmd-docker-build.sh
 
+build-landmark-react-nearify:
+	sh landmark-react/landmark-react-nearify/cmd-docker-build.sh
+
 run-infra:
 	sh docker/cmd-docker-up.sh
 
 run-app:
 	sh docker/cmd-docker-up-landmarks.sh
+	sh landmark-react/cmd-docker-up.sh
 
 run-monitoring:
 	@echo " Not Available Yet"
