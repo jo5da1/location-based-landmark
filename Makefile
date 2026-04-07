@@ -77,10 +77,18 @@ show-system:
 	docker volume ls
 
 	@echo " "
+	@echo "[Container]"
+	@echo "------------------"
+	docker ps -a
+	@echo " "
+
+	@echo " "
 	@echo "[Images][Landmark]"
 	@echo "------------------"
 	docker images | grep landmark
 	@echo " "
+
+
 
 	@echo " "
 	@echo "[Container]"

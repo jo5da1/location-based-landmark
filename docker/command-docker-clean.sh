@@ -2,6 +2,15 @@ docker stop \
   landmark-nearify \
   landmark-nearby \
   landmark-geo-query-engine \
+  landmark-react-nearify \
+
+docker stop \
+  landmark-osm-import-worker \
+  landmark-osm-import-s3 \
+  discover-localstack-terraform \
+  landmark-osm-import-local \
+  landmark-osm-fetch-local \
+  landmark_osm_importer
 
 docker stop \
   pgadmin \
@@ -15,6 +24,15 @@ docker rm \
   landmark-nearify \
   landmark-nearby \
   landmark-geo-query-engine \
+  landmark-react-nearify \
+
+docker rm \
+  landmark-osm-import-worker \
+  landmark-osm-import-s3 \
+  discover-localstack-terraform \
+  landmark-osm-import-local \
+  landmark-osm-fetch-local \
+  landmark_osm_importer
 
 docker rm \
   pgadmin \
@@ -53,6 +71,7 @@ docker network rm \
   landmark-localstack-net \
   landmark-react-nearify_landmark-net \
   landmark-react_landmark-net \
+  landmark-react_landmark-net
 
 docker volume rm \
   docker_grafana_data \
