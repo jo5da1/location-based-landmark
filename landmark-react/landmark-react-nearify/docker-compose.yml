@@ -1,0 +1,24 @@
+version: "3.9"
+
+services:
+
+  landmark-react-nearify:
+    image: landmark-react-nearify
+    container_name: landmark-react-nearify
+    profiles:
+      - landmark-react
+    ports:
+      - "3001:3000"
+    environment:
+      LANDMARK_NEARBY_API_URL: 'http://landmark-nearby:8086/api/landmark/nearby'
+      REACT_APP_LANDMARK_NEARBY_API_URL: 'http://landmark-nearby:8086/api/landmark'
+      REACT_APP_ENDPOINT_NEARBY: '/nearby'
+      REACT_APP_ENDPOINT_CATEGORY: '/category'
+    networks:
+      - landmark-net
+
+networks:
+  landmark-net:
+    driver: bridge
+  landmark-shared-net:
+    external: true

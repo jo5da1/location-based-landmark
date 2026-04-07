@@ -28,9 +28,17 @@ export const fetchLandmarkOptions = async (): Promise<LandmarkCategory[]> => {
   try {
     console.log('Fetching Category from API...');
 
+    const apiBaseUrl = process.env.REACT_APP_LANDMARK_NEARBY_API_URL;
+    const apiEndpoint = process.env.REACT_APP_ENDPOINT_CATEGORY;
+    if (!apiBaseUrl || !apiEndpoint) {
+      throw new Error("Missing API URL or endpoint environment variables");
+    }
+    const apiUrl = `${apiBaseUrl}${apiEndpoint}`;
+    console.log("API URL:", apiUrl);
+
     const response = await axios.get<LandmarkCategoryResponse>(
-        'http://localhost:8086/api/landmark/category',
-        { headers: { 'Content-Type': 'application/json'} }
+      apiUrl,
+      { headers: { 'Content-Type': 'application/json'} }
     );
 
     console.log('API Response: ', response.data);
@@ -107,10 +115,18 @@ export const fetchLandmarks = async (
   try {
     console.log('Fetching Landmarks from API...');
 
+    const apiBaseUrl = process.env.REACT_APP_LANDMARK_NEARBY_API_URL;
+    const apiEndpoint = process.env.REACT_APP_ENDPOINT_NEARBY;
+    if (!apiBaseUrl || !apiEndpoint) {
+      throw new Error("Missing API URL or endpoint environment variables");
+    }
+    const apiUrl = `${apiBaseUrl}${apiEndpoint}`;
+    console.log("API URL:", apiUrl);
+
     const response = await axios.post<LandmarksResponse>(
-          'http://localhost:8086/api/landmark/nearby',
-          request,
-          { headers: { 'Content-Type': 'application/json'} }
+      apiUrl,
+      request,
+      { headers: { 'Content-Type': 'application/json'} }
     );
 
     console.log('API Response: ', response.data);
