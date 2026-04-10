@@ -1,0 +1,39 @@
+version: "3.9"
+
+services:
+  # -------------------------
+  # RABBITMQ (WITH PROMETHEUS)
+  # -------------------------
+  rabbitmq:
+    image: rabbitmq:4.2.3-management-alpine
+    container_name: rabbitmq-mtls
+    ports:
+      - "5671:5671"
+      - "15671:15671"
+      - "5672:5672"     # AMQP
+      - "15672:15672"   # Management UI
+      - "15692:15692"   # Grafana/Prometheus
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+    command: >
+      sh -c "rabbitmq-plugins enable --offline rabbitmq_prometheus &&
+               rabbitmq-server"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+      - ./rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
+#      - ./rabbitmq/enabled_plugins:/etc/rabbitmq/enabled_plugins:ro
+      - ./rabbitmq/certs:/etc/rabbitmq/certs:ro
+    networks:
+      - landmark-net
+
+volumes:
+  rabbitmq_data:
+  prometheus_data:
+  grafana_data:
+
+networks:
+  landmark-net:
+    driver: bridge
+  landmark-shared-net:
+    external: true
